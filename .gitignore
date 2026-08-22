@@ -1,0 +1,8 @@
+# 使い捨ての取得データ（Actions が最新化する）
+events.jsonl
+commits_all.jsonl
+search_c1.json
+
+# Python
+__pycache__/
+*.pyc
