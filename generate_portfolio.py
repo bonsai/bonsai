@@ -204,9 +204,12 @@ h = f'''<!DOCTYPE html>
 :root {{
   --bg: #0d1117; --panel: #1e2530;      /* ② ダーク 2 階調 */
   --text: #e6edf3; --muted: #8b949e;    /* 文字（白 / 灰） */
-  --accent: #3fb950;                    /* ① 緑 1 色 */
+  --accent: #3fb950; --panel-accent: #1a2b20;  /* ① テーマ body（緑） */
   --r: 14px;                            /* ③ 角丸 1 値 */
 }}
+/* テーマ切替: ② light（琥珀・光） / ③ sound（青・音） */
+body[data-theme="light"] {{ --accent: #e8a33d; --panel-accent: #2b241a; }}
+body[data-theme="sound"] {{ --accent: #58a6ff; --panel-accent: #1a2430; }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
 body {{ background: var(--bg); color: var(--text); font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; line-height: 1.8; }}
 .wrap {{ max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }}
@@ -218,6 +221,11 @@ header .role {{ color: var(--accent); font-weight: 700; letter-spacing: 2px; mar
 header .statement {{ color: var(--muted); max-width: 620px; margin: 0 auto 16px; font-size: 14px; }}
 header .links a {{ color: var(--accent); text-decoration: none; margin: 0 10px; font-size: 14px; }}
 header .links a:hover {{ text-decoration: underline; }}
+
+/* テーマ切替（3 ドット） */
+.theme-switch {{ display: flex; gap: 8px; justify-content: center; margin-top: 14px; }}
+.tdot {{ width: 18px; height: 18px; border-radius: 50%; border: 0; cursor: pointer; opacity: .4; transition: opacity .2s; }}
+.tdot:hover, .tdot.active {{ opacity: 1; }}
 
 section {{ margin-bottom: 40px; }}
 h2 {{ font-size: 19px; margin-bottom: 16px; }}
@@ -238,7 +246,7 @@ h2 {{ font-size: 19px; margin-bottom: 16px; }}
 .mandala {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; }}
 .m-cell {{ display: flex; flex-direction: column; gap: 6px; background: var(--panel); border-radius: var(--r); padding: 14px; text-decoration: none; color: var(--text); }}
 .m-cell:hover {{ color: var(--accent); }}
-.m-cell:nth-child(5) {{ background: #1a2b20; }}
+.m-cell:nth-child(5) {{ background: var(--panel-accent); }}
 .m-genre {{ font-size: 10px; letter-spacing: 1px; color: var(--accent); font-weight: 700; }}
 .m-name {{ font-size: 14px; font-weight: 700; word-break: break-all; }}
 .m-desc {{ font-size: 11.5px; color: var(--muted); flex: 1; }}
@@ -289,6 +297,11 @@ footer a:hover {{ text-decoration: underline; }}
     <a href="https://github.com/bonsai">GitHub</a>
     <a href="https://ko-fi.com/v0n5ai">ko-fi</a>
   </div>
+  <div class="theme-switch" title="テーマ切替（身体 / 光 / 音）">
+    <button class="tdot" data-t="body"  onclick="setTheme('body')"  style="background:#3fb950" aria-label="Green"></button>
+    <button class="tdot" data-t="light" onclick="setTheme('light')" style="background:#e8a33d" aria-label="Amber"></button>
+    <button class="tdot" data-t="sound" onclick="setTheme('sound')" style="background:#58a6ff" aria-label="Blue"></button>
+  </div>
 </header>
 
 {themes_html}
@@ -320,6 +333,18 @@ footer a:hover {{ text-decoration: underline; }}
   📈 統計・活動データは <a href="https://github.com/bonsai">GitHub プロフィール</a> へ · <a href="https://ko-fi.com/v0n5ai">ko-fi</a>
 </footer>
 </div>
+<script>
+// ===== テーマ切替（3 テーマを動的に変更・localStorage 保存）=====
+function setTheme(t) {{
+  document.body.dataset.theme = t;
+  localStorage.setItem('bonsai-theme', t);
+  var dots = document.querySelectorAll('.tdot');
+  for (var i = 0; i < dots.length; i++) {{
+    dots[i].classList.toggle('active', dots[i].getAttribute('data-t') === t);
+  }}
+}}
+(function() {{ setTheme(localStorage.getItem('bonsai-theme') || 'body'); }})();
+</script>
 <script>
 // ===== 曼荼羅（3ジャンル×3作品を毎回ランダム配置）=====
 var GENRE_POOL = {GENRE_JSON};
