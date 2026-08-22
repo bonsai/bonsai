@@ -1,26 +1,69 @@
-# 👋 Hi, I'm bonsai
+# 🎛️ bonsai — Media Artist / Creative Technologist
 
-> **good vibes only** · 埼玉在住 · クリエイティブテクノロジスト
+> **身体の信号と回路と音を、境界なく繋ぐメディアアーティスト**
+>
+> Saitama, Japan · good vibes only · [ko-fi](https://ko-fi.com/v0n5ai)
 
 ![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=58a6ff)
-![Profile views](https://komarev.com/ghpvc/?username=bonsai&style=flat-square&color=58a6ff)
-![Repo count](https://img.shields.io/badge/Repos-703-58a6ff?style=flat-square)
+![Repos](https://img.shields.io/badge/Repos-703-58a6ff?style=flat-square)
 
 ---
 
-## 📊 GitHub 統計
+## 🧬 Artist Statement
 
-| 項目 | 数値 |
+RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハードウェア**で、心電図・声紋・LED・音を扱う作品を制作しています。
+微弱な生体信号を回路で増幅し、エッジ上の TinyML で意味を与え、光と音として身体に返す——**センシングから表現までを一貫して自作**することが私の制作スタイルです。
+
+## 🫀 Selected Works — Physical & Interactive
+
+### Body / Biosensing
+
+- **[uiap-ecg-monitor](https://github.com/bonsai/uiap-ecg-monitor)** — 自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。バッテリー駆動・ガルバニック絶縁の安全設計。 `C / CH32V203 / TinyML`
+- **[uiap-voiceprint-auth](https://github.com/bonsai/uiap-voiceprint-auth)** — 声紋認証システム — エッジ端末(CH32V003)上で MFCC 特徴抽出による話者識別。サーボモーターで物理ロックを制御。 `C / DSP / MFCC`
+- **[uiap-sensor-hid](https://github.com/bonsai/uiap-sensor-hid)** — USB HID センサー — RESET ボタンを HID デバイスとして MQTT ブリッジに接続する IoT インターフェース。 `C / USB HID / MQTT`
+
+### Light
+
+- **[led-board](https://github.com/bonsai/led-board)** — 電光掲示板 (LED Board) — 光の文字盤。Web から駆動する LED ボード。 `TypeScript / HTML`
+- **[uiapduino-4led](https://github.com/bonsai/uiapduino-4led)** — 290円 RISC-V マイコン(CH32V003)で 4 LED を駆動 — 最小コストの光の制御実験。 `C / Arduino`
+- **[led-poc](https://github.com/bonsai/led-poc)** — LED 表現の PoC 群（GDScript による光のシミュレーション）。 `GDScript`
+
+### Sound
+
+- **[4bit-music-riscv](https://github.com/bonsai/4bit-music-riscv)** — 4-bit music on RISC-V — チップ上のレジスタで 4bit 音楽を鳴らす。 `RISC-V / HTML`
+- **[audio-patch-simulator-next](https://github.com/bonsai/audio-patch-simulator-next)** — モジュラーシンセ風パッチシミュレータ — Web Audio でケーブルを繋ぐ音の実験。 `JavaScript / Web Audio`
+- **[sound-gen](https://github.com/bonsai/sound-gen)** — AudioGen + MusicGen による lo-fi hiphop 生成パイプライン。 `Python / Jupyter`
+- **[8bit-Jazz](https://github.com/bonsai/8bit-Jazz)** — 8bit ジャズ — 制約の上に音楽を載せる試み。 `HTML`
+
+### Interaction / Space
+
+- **[microbit-smartlock](https://github.com/bonsai/microbit-smartlock)** — micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。 `Python / micro:bit`
+- **[wifi-visualizer](https://github.com/bonsai/wifi-visualizer)** — WiFi 可視化 — 空間の電波をアートとして捉える。 `HTML`
+- **[wifi-ar-visualizer](https://github.com/bonsai/wifi-ar-visualizer)** — WiFi AR visualizer — 空間に重ねる電波の可視化。 `HTML`
+
+
+## 🛠️ Tech Stack
+
+| 領域 | 技術 |
+|---|---|
+| ハードウェア | RISC-V マイコン (CH32V003/203/307) · Arduino · micro:bit · USB HID · MQTT · BLE |
+| 信号処理 | MFCC / DSP / Pan-Tompkins · TinyML (BitNetMCU) · 固定小数点数演算 |
+| メディア | Web Audio API · GLSL · リアルタイムレンダリング |
+| 言語 | C · Python · TypeScript · JavaScript · GDScript · Elm · OCaml |
+
+## 🌱 直近 3 ヶ月の活動
+
+<img src="kusa.svg" alt="Last 90 days contribution graph" width="100%">
+
+| 指標 | 値 |
 |---|---:|
-| 公開リポジトリ | **703** |
-| オリジナル | **261** |
-| フォーク | **442** |
-| 獲得スター | **4** |
-| GitHub 歴 | **18+ 年** (2008〜) |
+| コントリビューション | **3673** |
+| アクティブ日 | **91 / 93 日** |
+| 公開リポジトリ | **703**（オリジナル 261） |
 
-## 🛠️ 使用言語トップ 12
+## 🛠️ 使用言語（オリジナル 261 リポジトリ）
 
-| 言語 | リポジトリ数 | 割合 | 分布 |
+| 言語 | 数 | 割合 | 分布 |
 |---|---:|---:|---|
 | HTML | 47 | 24% | `██████████████████` |
 | Python | 42 | 21% | `████████████████▏░` |
@@ -30,38 +73,7 @@
 | Go | 9 | 4% | `███▌░░░░░░░░░░░░░░` |
 | Shell | 4 | 2% | `█▌░░░░░░░░░░░░░░░░` |
 | Jupyter Notebook | 4 | 2% | `█▌░░░░░░░░░░░░░░░░` |
-| Java | 3 | 2% | `█▏░░░░░░░░░░░░░░░░` |
-| Rust | 3 | 2% | `█▏░░░░░░░░░░░░░░░░` |
-| Kotlin | 2 | 1% | `▊░░░░░░░░░░░░░░░░░` |
-| OCaml | 2 | 1% | `▊░░░░░░░░░░░░░░░░░` |
-
-## 📅 リポジトリ作成年分布
-
-**2008** ░░░░ | **2009** ░░░░ | **2010** ░░░░ | **2011** ░░░░ | **2012** ░░░░ | **2013** ░░░░ | **2014** ░░░░ | **2015** ░░░░ | **2016** ░░░░ | **2017** ░░░░ | **2018** ░░░░ | **2019** ░░░░ | **2020** ░░░░ | **2021** ░░░░ | **2022** ░░░░ | **2023** ░░░░ | **2024** ░░░░ | **2025** █▎░░ | **2026** ████
-
-## ✨ 注目リポジトリ
-
-| リポジトリ | 説明 | 言語 |
-|---|---|---|
-| [architect-quest](https://github.com/bonsai/architect-quest) | 2級建築士試験4科目ゲーム化ブラウザApp - 構造・環境・施工・法規 | —  |
-| [kanoe](https://github.com/bonsai/kanoe) | kanoe game | JavaScript  |
-| [kenchiku-quest](https://github.com/bonsai/kenchiku-quest) | 2級建築士試験4科目ゲーム化ブラウザApp - 構造・環境・施工・法規 | Python  |
-| [neet-quest](https://github.com/bonsai/neet-quest) | ニートが勇者として社会復帰するRPG | TypeScript  |
-| [night-cab](https://github.com/bonsai/night-cab) | NIGHT CAB — 雨の夜のタクシー運転手奇譚。CLI風ノベルゲームPWA。 | JavaScript  |
-| [osanpo-japan](https://github.com/bonsai/osanpo-japan) | 散歩ジャパン - 各地のオーディオ・ライブ・グルメ・サウナ spots | HTML  |
-| [ROOM](https://github.com/bonsai/ROOM) | Created with CodeSandbox | JavaScript  |
-| [tai-an](https://github.com/bonsai/tai-an) | onColab | Jupyter Notebook  |
-| [greasemonkey](https://github.com/bonsai/greasemonkey) |  | JavaScript ⭐ |
-| [8bit-Jazz](https://github.com/bonsai/8bit-Jazz) |  | HTML  |
-| [audio-patch-simulator-next](https://github.com/bonsai/audio-patch-simulator-next) |  | JavaScript  |
-| [best-10-ide](https://github.com/bonsai/best-10-ide) |  | Svelte  |
-| [bridge-archetypes-100](https://github.com/bonsai/bridge-archetypes-100) |  | Python  |
-| [BubblePlayer](https://github.com/bonsai/BubblePlayer) |  | TypeScript  |
-| [hikarikagi](https://github.com/bonsai/hikarikagi) |  | HTML  |
-| [iot-smarthome-generator](https://github.com/bonsai/iot-smarthome-generator) |  | HTML  |
-| [kuiz](https://github.com/bonsai/kuiz) |  | Python  |
-| [MindMutant](https://github.com/bonsai/MindMutant) |  | HTML  |
 
 ---
 
-*この README は [GitHub API](https://api.github.com) の統計から自動生成されています。*
+*このプロフィールは GitHub API の統計から自動生成されています。*
