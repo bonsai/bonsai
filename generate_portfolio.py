@@ -5,7 +5,7 @@ import json, collections, datetime, html
 
 DATA = "bonsai_repos.jsonl"
 KUSA = "kusa_3mo.json"
-OUT = "index.html"
+OUT = "portfolio.html"
 OUT_MD = "README.md"
 
 repos = [json.loads(l) for l in open(DATA) if l.strip()]
@@ -277,5 +277,8 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
 
 open(OUT_MD, "w", encoding="utf-8").write(readme)
 open(OUT, "w", encoding="utf-8").write(h)
+# GitHub Pages 用: ルート URL で開けるよう index.html にも出力
+open("index.html", "w", encoding="utf-8").write(h)
 print(f"OK: {OUT_MD} ({len(readme):,} bytes)")
 print(f"OK: {OUT} ({len(h):,} bytes)")
+print("OK: index.html (Pages 用コピー)")
