@@ -39,7 +39,7 @@ h2 { font-size: 19px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2
 .tech { color: var(--green); font-family: ui-monospace, monospace; font-size: 11px; }
 
 .kusa-box { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 14px; }
-.kusa-box img { width: 100%; max-width: 480px; display: block; margin: 0 auto; }
+.kusa-box img, .kusa-box svg { width: 100%; max-width: 480px; display: block; margin: 0 auto; }
 
 .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 13px; }
 .bar-label { width: 130px; text-align: right; color: var(--muted); white-space: nowrap; }
@@ -53,6 +53,23 @@ h2 { font-size: 19px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2
 .stack .card li { margin-bottom: 4px; }
 
 footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }
+
+/* ===== 曼荼羅 ===== */
+.shuffle { background: transparent; border: 1px solid var(--border); color: var(--accent); font-size: 15px; border-radius: 8px; padding: 2px 10px; cursor: pointer; margin-left: 10px; vertical-align: 2px; }
+.shuffle:hover { border-color: var(--accent); }
+.mandala-note { color: var(--muted); font-size: 12px; margin: -8px 0 14px; }
+.pool-count { color: var(--green); }
+.mandala { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; position: relative; }
+.mandala::before { content: ""; position: absolute; inset: -14px; border: 1px dashed #30363d66; border-radius: 50%; pointer-events: none; }
+.m-cell { display: flex; flex-direction: column; gap: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; text-decoration: none; color: var(--text); transition: border-color .15s, transform .15s; animation: mpop .5s cubic-bezier(.34,1.56,.64,1) both; }
+.m-cell:hover { border-color: var(--green); transform: translateY(-3px); }
+.m-cell:nth-child(5) { border-color: var(--green); background: linear-gradient(160deg, #1a2b20, #161b22); }
+@keyframes mpop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+.m-genre { font-size: 10px; letter-spacing: 1px; color: var(--green); font-weight: 700; }
+.m-name { font-size: 14px; font-weight: 700; color: var(--accent); word-break: break-all; }
+.m-desc { font-size: 11.5px; color: var(--muted); flex: 1; }
+.m-meta { font-size: 10.5px; color: var(--muted); display: flex; justify-content: space-between; }
+.m-lang { color: var(--green); font-family: ui-monospace, monospace; }
 </style>
 </head>
 <body>
@@ -70,6 +87,29 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 4
   </div>
 </header>
 
+<section id="kusa-anim">
+  <h2>🌱 直近 3 ヶ月の活動</h2>
+  <div class="kusa-box">
+    <svg xmlns="http://www.w3.org/2000/svg" width="206" height="138" viewBox="0 0 206 138" role="img" aria-label="Last 90 days: 3594 contributions">
+<style>
+  .k { transform-origin: center bottom; opacity: 0; animation: sprout .6s cubic-bezier(.34,1.56,.64,1) both; }
+  @keyframes sprout {
+    0%   { opacity: 0; transform: scaleY(0); }
+    60%  { opacity: 1; }
+    100% { opacity: 1; transform: scaleY(1); }
+  }
+  .lbl { font: 9px sans-serif; fill: #8b949e; }
+  .ttl { font: 11px sans-serif; font-weight: 700; fill: #c9d1d9; }
+  .sub { font: 9px sans-serif; fill: #8b949e; }
+</style>
+<text x="16" y="14" class="ttl">🌱 Last 90 days — 3594 contributions</text>
+<text x="204" y="14" class="sub" text-anchor="end">2026-05-24 → 2026-08-22</text>
+<rect class="k" x="16" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.00s"><title>2026-05-24: 11 contributions</title></rect><rect class="k" x="16" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.05s"><title>2026-05-25: 10 contributions</title></rect><rect class="k" x="16" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.10s"><title>2026-05-26: 40 contributions</title></rect><rect class="k" x="16" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.15s"><title>2026-05-27: 27 contributions</title></rect><rect class="k" x="16" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.20s"><title>2026-05-28: 22 contributions</title></rect><rect class="k" x="16" y="92" width="11" height="11" rx="2.5" fill="#ebedf0" style="animation-delay:0.25s"><title>2026-05-29: 0 contributions</title></rect><rect class="k" x="16" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.30s"><title>2026-05-30: 23 contributions</title></rect><rect class="k" x="30" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.32s"><title>2026-05-31: 54 contributions</title></rect><rect class="k" x="30" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.37s"><title>2026-06-01: 27 contributions</title></rect><rect class="k" x="30" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.42s"><title>2026-06-02: 11 contributions</title></rect><rect class="k" x="30" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.47s"><title>2026-06-03: 117 contributions</title></rect><rect class="k" x="30" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.52s"><title>2026-06-04: 12 contributions</title></rect><rect class="k" x="30" y="92" width="11" height="11" rx="2.5" fill="#30a14e" style="animation-delay:0.57s"><title>2026-06-05: 7 contributions</title></rect><rect class="k" x="30" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.62s"><title>2026-06-06: 25 contributions</title></rect><rect class="k" x="44" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.64s"><title>2026-06-07: 20 contributions</title></rect><rect class="k" x="44" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.69s"><title>2026-06-08: 54 contributions</title></rect><rect class="k" x="44" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.74s"><title>2026-06-09: 21 contributions</title></rect><rect class="k" x="44" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.79s"><title>2026-06-10: 56 contributions</title></rect><rect class="k" x="44" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.84s"><title>2026-06-11: 46 contributions</title></rect><rect class="k" x="44" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.89s"><title>2026-06-12: 30 contributions</title></rect><rect class="k" x="44" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:0.94s"><title>2026-06-13: 22 contributions</title></rect><rect class="k" x="58" y="22" width="11" height="11" rx="2.5" fill="#30a14e" style="animation-delay:0.96s"><title>2026-06-14: 9 contributions</title></rect><rect class="k" x="58" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.01s"><title>2026-06-15: 61 contributions</title></rect><rect class="k" x="58" y="50" width="11" height="11" rx="2.5" fill="#40c463" style="animation-delay:1.06s"><title>2026-06-16: 3 contributions</title></rect><rect class="k" x="58" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.11s"><title>2026-06-17: 44 contributions</title></rect><rect class="k" x="58" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.16s"><title>2026-06-18: 55 contributions</title></rect><rect class="k" x="58" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.21s"><title>2026-06-19: 78 contributions</title></rect><rect class="k" x="58" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.26s"><title>2026-06-20: 34 contributions</title></rect><rect class="k" x="72" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.28s"><title>2026-06-21: 138 contributions</title></rect><rect class="k" x="72" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.33s"><title>2026-06-22: 16 contributions</title></rect><rect class="k" x="72" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.38s"><title>2026-06-23: 84 contributions</title></rect><rect class="k" x="72" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.43s"><title>2026-06-24: 304 contributions</title></rect><rect class="k" x="72" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.48s"><title>2026-06-25: 87 contributions</title></rect><rect class="k" x="72" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.53s"><title>2026-06-26: 29 contributions</title></rect><rect class="k" x="72" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.58s"><title>2026-06-27: 50 contributions</title></rect><rect class="k" x="86" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.60s"><title>2026-06-28: 16 contributions</title></rect><rect class="k" x="86" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.65s"><title>2026-06-29: 35 contributions</title></rect><rect class="k" x="86" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.70s"><title>2026-06-30: 49 contributions</title></rect><rect class="k" x="86" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.75s"><title>2026-07-01: 74 contributions</title></rect><rect class="k" x="86" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.80s"><title>2026-07-02: 31 contributions</title></rect><rect class="k" x="86" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.85s"><title>2026-07-03: 72 contributions</title></rect><rect class="k" x="86" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.90s"><title>2026-07-04: 103 contributions</title></rect><rect class="k" x="100" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.92s"><title>2026-07-05: 12 contributions</title></rect><rect class="k" x="100" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:1.97s"><title>2026-07-06: 13 contributions</title></rect><rect class="k" x="100" y="50" width="11" height="11" rx="2.5" fill="#30a14e" style="animation-delay:2.02s"><title>2026-07-07: 9 contributions</title></rect><rect class="k" x="100" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.07s"><title>2026-07-08: 13 contributions</title></rect><rect class="k" x="100" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.12s"><title>2026-07-09: 14 contributions</title></rect><rect class="k" x="100" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.17s"><title>2026-07-10: 10 contributions</title></rect><rect class="k" x="100" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.22s"><title>2026-07-11: 15 contributions</title></rect><rect class="k" x="114" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.24s"><title>2026-07-12: 14 contributions</title></rect><rect class="k" x="114" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.29s"><title>2026-07-13: 17 contributions</title></rect><rect class="k" x="114" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.34s"><title>2026-07-14: 27 contributions</title></rect><rect class="k" x="114" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.39s"><title>2026-07-15: 26 contributions</title></rect><rect class="k" x="114" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.44s"><title>2026-07-16: 29 contributions</title></rect><rect class="k" x="114" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.49s"><title>2026-07-17: 48 contributions</title></rect><rect class="k" x="114" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.54s"><title>2026-07-18: 22 contributions</title></rect><rect class="k" x="128" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.56s"><title>2026-07-19: 48 contributions</title></rect><rect class="k" x="128" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.61s"><title>2026-07-20: 10 contributions</title></rect><rect class="k" x="128" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.66s"><title>2026-07-21: 119 contributions</title></rect><rect class="k" x="128" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.71s"><title>2026-07-22: 16 contributions</title></rect><rect class="k" x="128" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.76s"><title>2026-07-23: 25 contributions</title></rect><rect class="k" x="128" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.81s"><title>2026-07-24: 49 contributions</title></rect><rect class="k" x="128" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.86s"><title>2026-07-25: 13 contributions</title></rect><rect class="k" x="142" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.88s"><title>2026-07-26: 12 contributions</title></rect><rect class="k" x="142" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.93s"><title>2026-07-27: 25 contributions</title></rect><rect class="k" x="142" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:2.98s"><title>2026-07-28: 20 contributions</title></rect><rect class="k" x="142" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.03s"><title>2026-07-29: 19 contributions</title></rect><rect class="k" x="142" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.08s"><title>2026-07-30: 55 contributions</title></rect><rect class="k" x="142" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.13s"><title>2026-07-31: 15 contributions</title></rect><rect class="k" x="142" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.18s"><title>2026-08-01: 27 contributions</title></rect><rect class="k" x="156" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.20s"><title>2026-08-02: 43 contributions</title></rect><rect class="k" x="156" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.25s"><title>2026-08-03: 46 contributions</title></rect><rect class="k" x="156" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.30s"><title>2026-08-04: 71 contributions</title></rect><rect class="k" x="156" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.35s"><title>2026-08-05: 36 contributions</title></rect><rect class="k" x="156" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.40s"><title>2026-08-06: 16 contributions</title></rect><rect class="k" x="156" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.45s"><title>2026-08-07: 39 contributions</title></rect><rect class="k" x="156" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.50s"><title>2026-08-08: 21 contributions</title></rect><rect class="k" x="170" y="22" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.52s"><title>2026-08-09: 22 contributions</title></rect><rect class="k" x="170" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.57s"><title>2026-08-10: 20 contributions</title></rect><rect class="k" x="170" y="50" width="11" height="11" rx="2.5" fill="#40c463" style="animation-delay:3.62s"><title>2026-08-11: 3 contributions</title></rect><rect class="k" x="170" y="64" width="11" height="11" rx="2.5" fill="#ebedf0" style="animation-delay:3.67s"><title>2026-08-12: 0 contributions</title></rect><rect class="k" x="170" y="78" width="11" height="11" rx="2.5" fill="#9be9a8" style="animation-delay:3.72s"><title>2026-08-13: 1 contributions</title></rect><rect class="k" x="170" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.77s"><title>2026-08-14: 10 contributions</title></rect><rect class="k" x="170" y="106" width="11" height="11" rx="2.5" fill="#9be9a8" style="animation-delay:3.82s"><title>2026-08-15: 1 contributions</title></rect><rect class="k" x="184" y="22" width="11" height="11" rx="2.5" fill="#30a14e" style="animation-delay:3.84s"><title>2026-08-16: 9 contributions</title></rect><rect class="k" x="184" y="36" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.89s"><title>2026-08-17: 270 contributions</title></rect><rect class="k" x="184" y="50" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.94s"><title>2026-08-18: 23 contributions</title></rect><rect class="k" x="184" y="64" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:3.99s"><title>2026-08-19: 23 contributions</title></rect><rect class="k" x="184" y="78" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:4.04s"><title>2026-08-20: 31 contributions</title></rect><rect class="k" x="184" y="92" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:4.09s"><title>2026-08-21: 30 contributions</title></rect><rect class="k" x="184" y="106" width="11" height="11" rx="2.5" fill="#216e39" style="animation-delay:4.14s"><title>2026-08-22: 150 contributions</title></rect>
+<text x="21.5" y="132" class="lbl" text-anchor="middle">5/24</text><text x="49.5" y="132" class="lbl" text-anchor="middle">6/7</text><text x="77.5" y="132" class="lbl" text-anchor="middle">6/21</text><text x="105.5" y="132" class="lbl" text-anchor="middle">7/5</text><text x="133.5" y="132" class="lbl" text-anchor="middle">7/19</text><text x="161.5" y="132" class="lbl" text-anchor="middle">8/2</text><text x="189.5" y="132" class="lbl" text-anchor="middle">8/16</text>
+</svg>
+  </div>
+</section>
+
 <div class="stats">
   <div class="tile"><div class="num">3594</div><div class="lbl">直近3ヶ月の貢献</div></div>
   <div class="tile"><div class="num">89/91</div><div class="lbl">アクティブ日</div></div>
@@ -77,74 +117,10 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 4
   <div class="tile"><div class="num">705</div><div class="lbl">公開リポジトリ</div></div>
 </div>
 
-<section><h2>Body / Biosensing</h2><div class="cards"><div class="card">
-  <a class="card-title" href="https://github.com/bonsai/uiap-ecg-monitor" target="_blank">uiap-ecg-monitor</a>
-  <div class="card-desc">自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。バッテリー駆動・ガルバニック絶縁の安全設計。</div>
-  <div class="card-meta"><span class="tech">C / CH32V203 / TinyML</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/uiap-voiceprint-auth" target="_blank">uiap-voiceprint-auth</a>
-  <div class="card-desc">声紋認証システム — エッジ端末(CH32V003)上で MFCC 特徴抽出による話者識別。サーボモーターで物理ロックを制御。</div>
-  <div class="card-meta"><span class="tech">C / DSP / MFCC</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/uiap-sensor-hid" target="_blank">uiap-sensor-hid</a>
-  <div class="card-desc">USB HID センサー — RESET ボタンを HID デバイスとして MQTT ブリッジに接続する IoT インターフェース。</div>
-  <div class="card-meta"><span class="tech">C / USB HID / MQTT</span></div>
-</div></div></section><section><h2>Light</h2><div class="cards"><div class="card">
-  <a class="card-title" href="https://github.com/bonsai/led-board" target="_blank">led-board</a>
-  <div class="card-desc">電光掲示板 (LED Board) — 光の文字盤。Web から駆動する LED ボード。</div>
-  <div class="card-meta"><span class="tech">TypeScript / HTML</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/uiapduino-4led" target="_blank">uiapduino-4led</a>
-  <div class="card-desc">290円 RISC-V マイコン(CH32V003)で 4 LED を駆動 — 最小コストの光の制御実験。</div>
-  <div class="card-meta"><span class="tech">C / Arduino</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/led-poc" target="_blank">led-poc</a>
-  <div class="card-desc">LED 表現の PoC 群（GDScript による光のシミュレーション）。</div>
-  <div class="card-meta"><span class="tech">GDScript</span></div>
-</div></div></section><section><h2>Sound</h2><div class="cards"><div class="card">
-  <a class="card-title" href="https://github.com/bonsai/4bit-music-riscv" target="_blank">4bit-music-riscv</a>
-  <div class="card-desc">4-bit music on RISC-V — チップ上のレジスタで 4bit 音楽を鳴らす。</div>
-  <div class="card-meta"><span class="tech">RISC-V / HTML</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/audio-patch-simulator-next" target="_blank">audio-patch-simulator-next</a>
-  <div class="card-desc">モジュラーシンセ風パッチシミュレータ — Web Audio でケーブルを繋ぐ音の実験。</div>
-  <div class="card-meta"><span class="tech">JavaScript / Web Audio</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/sound-gen" target="_blank">sound-gen</a>
-  <div class="card-desc">AudioGen + MusicGen による lo-fi hiphop 生成パイプライン。</div>
-  <div class="card-meta"><span class="tech">Python / Jupyter</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/8bit-Jazz" target="_blank">8bit-Jazz</a>
-  <div class="card-desc">8bit ジャズ — 制約の上に音楽を載せる試み。</div>
-  <div class="card-meta"><span class="tech">HTML</span></div>
-</div></div></section><section><h2>Interaction / Space</h2><div class="cards"><div class="card">
-  <a class="card-title" href="https://github.com/bonsai/microbit-smartlock" target="_blank">microbit-smartlock</a>
-  <div class="card-desc">micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。</div>
-  <div class="card-meta"><span class="tech">Python / micro:bit</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/wifi-visualizer" target="_blank">wifi-visualizer</a>
-  <div class="card-desc">WiFi 可視化 — 空間の電波をアートとして捉える。</div>
-  <div class="card-meta"><span class="tech">HTML</span></div>
-</div>
-<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/wifi-ar-visualizer" target="_blank">wifi-ar-visualizer</a>
-  <div class="card-desc">WiFi AR visualizer — 空間に重ねる電波の可視化。</div>
-  <div class="card-meta"><span class="tech">HTML</span></div>
-</div></div></section>
-
-<section>
-  <h2>🌱 直近 3 ヶ月の活動</h2>
-  <div class="kusa-box">
-    <img src="kusa.svg" alt="Last 90 days contributions">
-  </div>
+<section id="mandala-sec">
+  <h2>🕉️ Works Mandala <button class="shuffle" onclick="reshuffle()" title="入れ替える">🔄</button></h2>
+  <p class="mandala-note">3 ジャンル × 3 作品 = 9 マス · 開くたびに入れ替わる · <span class="pool-count">17 repos in pool (jsonl 同期)</span></p>
+  <div class="mandala" id="mandala"></div>
 </section>
 
 <section>
@@ -198,5 +174,59 @@ footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 4
 
 <footer>Generated from GitHub API · 2026-08-22</footer>
 </div>
+<script>
+// ===== 曼荼羅（3ジャンル×3作品を毎回ランダム配置）=====
+var GENRE_POOL = {"Body": [{"name": "voiceprint-vst", "desc": "Voiceprint VST plugin", "lang": "Rust", "url": "https://github.com/bonsai/voiceprint-vst", "pushed": "2026-06-28"}, {"name": "uiap-voiceprint-auth", "desc": "UIAP voiceprint authentication", "lang": "C", "url": "https://github.com/bonsai/uiap-voiceprint-auth", "pushed": "2026-06-28"}, {"name": "uiap-ecg-monitor", "desc": "UIAP ECG monitor", "lang": "", "url": "https://github.com/bonsai/uiap-ecg-monitor", "pushed": "2026-06-28"}, {"name": "microbit-smartlock", "desc": "micro:bit smart lock", "lang": "Python", "url": "https://github.com/bonsai/microbit-smartlock", "pushed": "2026-06-28"}, {"name": "uiap-sensor-hid", "desc": "CH32V003 USB HID sensor: RESET button → MQTT bridge.  IoT.", "lang": "C", "url": "https://github.com/bonsai/uiap-sensor-hid", "pushed": "2026-06-28"}], "Light": [{"name": "glsl-samples", "desc": "GLSL techniques samples: Ray tracing, path tracing, materials, lighting, and mor", "lang": "JavaScript", "url": "https://github.com/bonsai/glsl-samples", "pushed": "2026-07-16"}, {"name": "led-poc", "desc": "led-poc", "lang": "GDScript", "url": "https://github.com/bonsai/led-poc", "pushed": "2026-06-28"}, {"name": "wifi-visualizer", "desc": "WiFi visualizer", "lang": "", "url": "https://github.com/bonsai/wifi-visualizer", "pushed": "2026-06-28"}, {"name": "wifi-ar-visualizer", "desc": "WiFi AR visualizer", "lang": "HTML", "url": "https://github.com/bonsai/wifi-ar-visualizer", "pushed": "2026-06-28"}, {"name": "uiapduino-4led", "desc": "UIAPduino 4 LED", "lang": "", "url": "https://github.com/bonsai/uiapduino-4led", "pushed": "2026-06-28"}], "Sound": [{"name": "audio-patch-simulator-next", "desc": "", "lang": "JavaScript", "url": "https://github.com/bonsai/audio-patch-simulator-next", "pushed": "2026-07-24"}, {"name": "midi-to-score", "desc": "", "lang": "OCaml", "url": "https://github.com/bonsai/midi-to-score", "pushed": "2026-07-18"}, {"name": "sound-gen", "desc": "AudioGen + MusicGen Colab demo — lo-fi hiphop dark", "lang": "Jupyter Notebook", "url": "https://github.com/bonsai/sound-gen", "pushed": "2026-07-15"}, {"name": "4bit-music-riscv", "desc": "4-bit music on RISC-V", "lang": "HTML", "url": "https://github.com/bonsai/4bit-music-riscv", "pushed": "2026-06-28"}, {"name": "gakuri-ts", "desc": "GAKURI 楽理 — Emotional Jazz Chord Progression Generator (TypeScript/Bun)", "lang": "TypeScript", "url": "https://github.com/bonsai/gakuri-ts", "pushed": "2026-06-26"}, {"name": "8bit-Jazz", "desc": "", "lang": "HTML", "url": "https://github.com/bonsai/8bit-Jazz", "pushed": "2026-02-23"}, {"name": "SunoMIDI", "desc": "", "lang": "Python", "url": "https://github.com/bonsai/SunoMIDI", "pushed": "2025-11-30"}]};
+function shuffleArr(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function pick(arr, n) { return shuffleArr(arr).slice(0, n); }
+function renderMandala() {
+  var grid = document.getElementById('mandala');
+  if (!grid) return;
+  var genres = shuffleArr(Object.keys(GENRE_POOL));
+  var cells = [];
+  genres.forEach(function(g) {
+    pick(GENRE_POOL[g], 3).forEach(function(r) { cells.push({g: g, r: r}); });
+  });
+  cells = shuffleArr(cells);
+  grid.innerHTML = cells.map(function(c, i) {
+    return '<a class="m-cell" style="animation-delay:' + (i * 0.06) + 's" href="' + c.r.url + '" target="_blank">' +
+      '<span class="m-genre">' + c.g + '</span>' +
+      '<span class="m-name">' + c.r.name + '</span>' +
+      '<span class="m-desc">' + (c.r.desc || '—') + '</span>' +
+      '<span class="m-meta"><span class="m-lang">' + (c.r.lang || '—') + '</span><span>' + c.r.pushed + '</span></span>' +
+      '</a>';
+  }).join('');
+}
+function reshuffle() { renderMandala(); }
+renderMandala();
+</script>
+<script>
+(function() {
+  var box = document.getElementById('kusa-anim');
+  if (!box) return;
+  var svg = box.querySelector('svg');
+  if (!svg) return;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        // 可視領域に入るたびに再生し直す（スクロール連動）
+        svg.classList.remove('play');
+        void svg.getBoundingClientRect();
+        svg.classList.add('play');
+      } else {
+        svg.classList.remove('play');
+      }
+    });
+  }, { threshold: 0.2 });
+  obs.observe(box);
+})();
+</script>
 </body>
 </html>

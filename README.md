@@ -16,17 +16,20 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 
 ## 🫀 Selected Works — Physical & Interactive
 
-### Body / Biosensing
+### Body
 
-- **[uiap-ecg-monitor](https://github.com/bonsai/uiap-ecg-monitor)** — 自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。バッテリー駆動・ガルバニック絶縁の安全設計。 `C / CH32V203 / TinyML`
-- **[uiap-voiceprint-auth](https://github.com/bonsai/uiap-voiceprint-auth)** — 声紋認証システム — エッジ端末(CH32V003)上で MFCC 特徴抽出による話者識別。サーボモーターで物理ロックを制御。 `C / DSP / MFCC`
+- **[uiap-ecg-monitor](https://github.com/bonsai/uiap-ecg-monitor)** — 自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。 `C / CH32V203 / TinyML`
+- **[uiap-voiceprint-auth](https://github.com/bonsai/uiap-voiceprint-auth)** — 声紋認証 — エッジ端末(CH32V003)上で MFCC による話者識別。サーボモーターで物理ロックを制御。 `C / DSP / MFCC`
 - **[uiap-sensor-hid](https://github.com/bonsai/uiap-sensor-hid)** — USB HID センサー — RESET ボタンを HID デバイスとして MQTT ブリッジに接続する IoT インターフェース。 `C / USB HID / MQTT`
+- **[microbit-smartlock](https://github.com/bonsai/microbit-smartlock)** — micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。 `Python / micro:bit`
 
 ### Light
 
 - **[led-board](https://github.com/bonsai/led-board)** — 電光掲示板 (LED Board) — 光の文字盤。Web から駆動する LED ボード。 `TypeScript / HTML`
+- **[denkou-keijiban](https://github.com/bonsai/denkou-keijiban)** — LED Board — 電光掲示板の Web 版。 `HTML`
 - **[uiapduino-4led](https://github.com/bonsai/uiapduino-4led)** — 290円 RISC-V マイコン(CH32V003)で 4 LED を駆動 — 最小コストの光の制御実験。 `C / Arduino`
 - **[led-poc](https://github.com/bonsai/led-poc)** — LED 表現の PoC 群（GDScript による光のシミュレーション）。 `GDScript`
+- **[wifi-visualizer](https://github.com/bonsai/wifi-visualizer)** — WiFi 可視化 — 空間の電波を光として捉える。 `HTML`
 
 ### Sound
 
@@ -34,12 +37,7 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 - **[audio-patch-simulator-next](https://github.com/bonsai/audio-patch-simulator-next)** — モジュラーシンセ風パッチシミュレータ — Web Audio でケーブルを繋ぐ音の実験。 `JavaScript / Web Audio`
 - **[sound-gen](https://github.com/bonsai/sound-gen)** — AudioGen + MusicGen による lo-fi hiphop 生成パイプライン。 `Python / Jupyter`
 - **[8bit-Jazz](https://github.com/bonsai/8bit-Jazz)** — 8bit ジャズ — 制約の上に音楽を載せる試み。 `HTML`
-
-### Interaction / Space
-
-- **[microbit-smartlock](https://github.com/bonsai/microbit-smartlock)** — micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。 `Python / micro:bit`
-- **[wifi-visualizer](https://github.com/bonsai/wifi-visualizer)** — WiFi 可視化 — 空間の電波をアートとして捉える。 `HTML`
-- **[wifi-ar-visualizer](https://github.com/bonsai/wifi-ar-visualizer)** — WiFi AR visualizer — 空間に重ねる電波の可視化。 `HTML`
+- **[midi-to-score](https://github.com/bonsai/midi-to-score)** — MIDI → 楽譜変換 — 音楽情報処理の実験。 `OCaml`
 
 
 ## 🛠️ Tech Stack

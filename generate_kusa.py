@@ -46,7 +46,7 @@ for wi, week in enumerate(weeks):
         delay = wi * 0.32 + di * 0.05  # 週ごと・曜日ごとに順に生える
         rects.append(
             f'<rect class="k" x="{x}" y="{y}" width="{CELL}" height="{CELL}" rx="2.5" '
-            f'fill="{COLORS[c]}" style="animation-delay:{delay:.2f}s">'
+            f'fill="{COLORS[c]}" style="--d:{delay:.2f}s">'
             f'<title>{day["date"]}: {day["contributionCount"]} contributions</title></rect>'
         )
 
@@ -56,9 +56,13 @@ labels = "".join(
     for wi in range(len(weeks)) if wi % 2 == 0
 )
 
-svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Last 90 days: {total} contributions">
+svg = f'''<svg class="kusa-svg" xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Last 90 days: {total} contributions">
 <style>
-  .k {{ transform-origin: center bottom; opacity: 0; animation: sprout .6s cubic-bezier(.34,1.56,.64,1) both; }}
+  .k {{ transform-origin: center bottom; opacity: 0; }}
+  /* スタンドアロン（README など <img> 参照）: 自動再生・3回繰り返し */
+  svg:not(.inpage) .k {{ animation: sprout .6s cubic-bezier(.34,1.56,.64,1) 3 both; animation-delay: var(--d, 0s); }}
+  /* インライン（HTML 内）: 親に .play が付いたら再生（JS でスクロール連動） */
+  .kusa-svg.play .k {{ animation: sprout .6s cubic-bezier(.34,1.56,.64,1) both; animation-delay: var(--d, 0s); }}
   @keyframes sprout {{
     0%   {{ opacity: 0; transform: scaleY(0); }}
     60%  {{ opacity: 1; }}

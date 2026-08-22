@@ -11,30 +11,60 @@ OUT_MD = "README.md"
 repos = [json.loads(l) for l in open(DATA) if l.strip()]
 orig = [r for r in repos if not r["fork"]]
 
-# ============ フィジカル作品データ（メディアアート向け） ============
+# ============ フィジカル作品データ（メディアアート向け・3ジャンル曼荼羅） ============
+# README 用の静的リスト。HTML の曼荼羅は jsonl から動的抽出する。
 WORKS = {
-    "Body / Biosensing": [
-        ("uiap-ecg-monitor", "自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。バッテリー駆動・ガルバニック絶縁の安全設計。", "C / CH32V203 / TinyML"),
-        ("uiap-voiceprint-auth", "声紋認証システム — エッジ端末(CH32V003)上で MFCC 特徴抽出による話者識別。サーボモーターで物理ロックを制御。", "C / DSP / MFCC"),
+    "Body": [
+        ("uiap-ecg-monitor", "自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。", "C / CH32V203 / TinyML"),
+        ("uiap-voiceprint-auth", "声紋認証 — エッジ端末(CH32V003)上で MFCC による話者識別。サーボモーターで物理ロックを制御。", "C / DSP / MFCC"),
         ("uiap-sensor-hid", "USB HID センサー — RESET ボタンを HID デバイスとして MQTT ブリッジに接続する IoT インターフェース。", "C / USB HID / MQTT"),
+        ("microbit-smartlock", "micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。", "Python / micro:bit"),
     ],
     "Light": [
         ("led-board", "電光掲示板 (LED Board) — 光の文字盤。Web から駆動する LED ボード。", "TypeScript / HTML"),
+        ("denkou-keijiban", "LED Board — 電光掲示板の Web 版。", "HTML"),
         ("uiapduino-4led", "290円 RISC-V マイコン(CH32V003)で 4 LED を駆動 — 最小コストの光の制御実験。", "C / Arduino"),
         ("led-poc", "LED 表現の PoC 群（GDScript による光のシミュレーション）。", "GDScript"),
+        ("wifi-visualizer", "WiFi 可視化 — 空間の電波を光として捉える。", "HTML"),
     ],
     "Sound": [
         ("4bit-music-riscv", "4-bit music on RISC-V — チップ上のレジスタで 4bit 音楽を鳴らす。", "RISC-V / HTML"),
         ("audio-patch-simulator-next", "モジュラーシンセ風パッチシミュレータ — Web Audio でケーブルを繋ぐ音の実験。", "JavaScript / Web Audio"),
         ("sound-gen", "AudioGen + MusicGen による lo-fi hiphop 生成パイプライン。", "Python / Jupyter"),
         ("8bit-Jazz", "8bit ジャズ — 制約の上に音楽を載せる試み。", "HTML"),
-    ],
-    "Interaction / Space": [
-        ("microbit-smartlock", "micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。", "Python / micro:bit"),
-        ("wifi-visualizer", "WiFi 可視化 — 空間の電波をアートとして捉える。", "HTML"),
-        ("wifi-ar-visualizer", "WiFi AR visualizer — 空間に重ねる電波の可視化。", "HTML"),
+        ("midi-to-score", "MIDI → 楽譜変換 — 音楽情報処理の実験。", "OCaml"),
     ],
 }
+
+# jsonl と同期した動的ジャンル抽出（曼荼羅用）
+GENRE_KEYWORDS = {
+    "Body":  ["ecg", "voiceprint", "sensor", "microbit", "smartlock", "hid", "health", "biosign"],
+    "Light": ["led", "board", "keijiban", "light", "visualiz", "visual"],
+    "Sound": ["music", "audio", "sound", "midi", "8bit", "4bit", "jazz", "synth", "patch", "fm", "score"],
+}
+
+def build_genre_pool(orig_repos):
+    """jsonl のリポジトリからジャンル別プールを作る（1リポジトリ=1ジャンル、優先順 Body→Light→Sound）"""
+    pool = {g: [] for g in GENRE_KEYWORDS}
+    assigned = set()
+    for r in sorted(orig_repos, key=lambda x: x.get("pushed_at") or "", reverse=True):
+        if r["name"] in assigned:
+            continue
+        text = (r["name"] + " " + (r["description"] or "")).lower()
+        for g, kws in GENRE_KEYWORDS.items():
+            if any(k in text for k in kws):
+                pool[g].append({
+                    "name": html.escape(r["name"]),
+                    "desc": html.escape((r["description"] or "")[:80]),
+                    "lang": r["language"] or "",
+                    "url": f"https://github.com/bonsai/{r['name']}",
+                    "pushed": (r.get("pushed_at") or "")[:10],
+                })
+                assigned.add(r["name"])
+                break
+    return pool
+
+GENRE_POOL = build_genre_pool(orig)
 
 # 直近3ヶ月の草
 kusa = json.load(open(KUSA))
@@ -65,6 +95,10 @@ def bar(v, mx, width=18):
 md_lang = "\n".join(
     f"| {lang} | {v} | {v / lang_total * 100:.0f}% | `{bar(v, lang_max)}` |"
     for lang, v in lang_top)
+
+# kusa SVG を読み込み、インライン用に class を付与
+KUSA_SVG = open("kusa.svg", encoding="utf-8").read()
+INLINE_KUSA = KUSA_SVG.replace('<svg class="kusa-svg"', '<svg class="kusa-svg inpage"', 1)
 
 # ============ README (メディアアート求人向け) ============
 def works_md():
@@ -140,15 +174,13 @@ def lang_color(lang):
 
 def esc(s): return html.escape(s or "")
 
-works_html = ""
-for cat, items in WORKS.items():
-    cards = "\n".join(
-        f'''<div class="card">
-  <a class="card-title" href="https://github.com/bonsai/{esc(name)}" target="_blank">{esc(name)}</a>
-  <div class="card-desc">{esc(desc)}</div>
-  <div class="card-meta"><span class="tech">{esc(tech)}</span></div>
-</div>''' for name, desc, tech in items)
-    works_html += f'<section><h2>{cat}</h2><div class="cards">{cards}</div></section>'
+# ===== 曼荼羅（3ジャンル×3作品、毎回ランダム配置）=====
+GENRE_JSON = json.dumps(GENRE_POOL, ensure_ascii=False)
+works_html = f'''<section id="mandala-sec">
+  <h2>🕉️ Works Mandala <button class="shuffle" onclick="reshuffle()" title="入れ替える">🔄</button></h2>
+  <p class="mandala-note">3 ジャンル × 3 作品 = 9 マス · 開くたびに入れ替わる · <span class="pool-count">{sum(len(v) for v in GENRE_POOL.values())} repos in pool (jsonl 同期)</span></p>
+  <div class="mandala" id="mandala"></div>
+</section>'''
 
 lang_bars = "\n".join(
     f'''<div class="bar-row"><div class="bar-label">{esc(lang)}</div>
@@ -197,7 +229,7 @@ h2 {{ font-size: 19px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 
 .tech {{ color: var(--green); font-family: ui-monospace, monospace; font-size: 11px; }}
 
 .kusa-box {{ background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 14px; }}
-.kusa-box img {{ width: 100%; max-width: 480px; display: block; margin: 0 auto; }}
+.kusa-box img, .kusa-box svg {{ width: 100%; max-width: 480px; display: block; margin: 0 auto; }}
 
 .bar-row {{ display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 13px; }}
 .bar-label {{ width: 130px; text-align: right; color: var(--muted); white-space: nowrap; }}
@@ -211,6 +243,23 @@ h2 {{ font-size: 19px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 
 .stack .card li {{ margin-bottom: 4px; }}
 
 footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }}
+
+/* ===== 曼荼羅 ===== */
+.shuffle {{ background: transparent; border: 1px solid var(--border); color: var(--accent); font-size: 15px; border-radius: 8px; padding: 2px 10px; cursor: pointer; margin-left: 10px; vertical-align: 2px; }}
+.shuffle:hover {{ border-color: var(--accent); }}
+.mandala-note {{ color: var(--muted); font-size: 12px; margin: -8px 0 14px; }}
+.pool-count {{ color: var(--green); }}
+.mandala {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; position: relative; }}
+.mandala::before {{ content: ""; position: absolute; inset: -14px; border: 1px dashed #30363d66; border-radius: 50%; pointer-events: none; }}
+.m-cell {{ display: flex; flex-direction: column; gap: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; text-decoration: none; color: var(--text); transition: border-color .15s, transform .15s; animation: mpop .5s cubic-bezier(.34,1.56,.64,1) both; }}
+.m-cell:hover {{ border-color: var(--green); transform: translateY(-3px); }}
+.m-cell:nth-child(5) {{ border-color: var(--green); background: linear-gradient(160deg, #1a2b20, #161b22); }}
+@keyframes mpop {{ from {{ opacity: 0; transform: scale(.85); }} to {{ opacity: 1; transform: scale(1); }} }}
+.m-genre {{ font-size: 10px; letter-spacing: 1px; color: var(--green); font-weight: 700; }}
+.m-name {{ font-size: 14px; font-weight: 700; color: var(--accent); word-break: break-all; }}
+.m-desc {{ font-size: 11.5px; color: var(--muted); flex: 1; }}
+.m-meta {{ font-size: 10.5px; color: var(--muted); display: flex; justify-content: space-between; }}
+.m-lang {{ color: var(--green); font-family: ui-monospace, monospace; }}
 </style>
 </head>
 <body>
@@ -228,6 +277,13 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
   </div>
 </header>
 
+<section id="kusa-anim">
+  <h2>🌱 直近 3 ヶ月の活動</h2>
+  <div class="kusa-box">
+    {INLINE_KUSA}
+  </div>
+</section>
+
 <div class="stats">
   <div class="tile"><div class="num">{kusa_total}</div><div class="lbl">直近3ヶ月の貢献</div></div>
   <div class="tile"><div class="num">{kusa_active}/{kusa_days}</div><div class="lbl">アクティブ日</div></div>
@@ -236,13 +292,6 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
 </div>
 
 {works_html}
-
-<section>
-  <h2>🌱 直近 3 ヶ月の活動</h2>
-  <div class="kusa-box">
-    <img src="kusa.svg" alt="Last 90 days contributions">
-  </div>
-</section>
 
 <section>
   <h2>🛠️ 技術スタック</h2>
@@ -272,6 +321,60 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
 
 <footer>Generated from GitHub API · 2026-08-22</footer>
 </div>
+<script>
+// ===== 曼荼羅（3ジャンル×3作品を毎回ランダム配置）=====
+var GENRE_POOL = {GENRE_JSON};
+function shuffleArr(arr) {{
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {{
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }}
+  return a;
+}}
+function pick(arr, n) {{ return shuffleArr(arr).slice(0, n); }}
+function renderMandala() {{
+  var grid = document.getElementById('mandala');
+  if (!grid) return;
+  var genres = shuffleArr(Object.keys(GENRE_POOL));
+  var cells = [];
+  genres.forEach(function(g) {{
+    pick(GENRE_POOL[g], 3).forEach(function(r) {{ cells.push({{g: g, r: r}}); }});
+  }});
+  cells = shuffleArr(cells);
+  grid.innerHTML = cells.map(function(c, i) {{
+    return '<a class="m-cell" style="animation-delay:' + (i * 0.06) + 's" href="' + c.r.url + '" target="_blank">' +
+      '<span class="m-genre">' + c.g + '</span>' +
+      '<span class="m-name">' + c.r.name + '</span>' +
+      '<span class="m-desc">' + (c.r.desc || '—') + '</span>' +
+      '<span class="m-meta"><span class="m-lang">' + (c.r.lang || '—') + '</span><span>' + c.r.pushed + '</span></span>' +
+      '</a>';
+  }}).join('');
+}}
+function reshuffle() {{ renderMandala(); }}
+renderMandala();
+</script>
+<script>
+(function() {{
+  var box = document.getElementById('kusa-anim');
+  if (!box) return;
+  var svg = box.querySelector('svg');
+  if (!svg) return;
+  var obs = new IntersectionObserver(function(entries) {{
+    entries.forEach(function(e) {{
+      if (e.isIntersecting) {{
+        // 可視領域に入るたびに再生し直す（スクロール連動）
+        svg.classList.remove('play');
+        void svg.getBoundingClientRect();
+        svg.classList.add('play');
+      }} else {{
+        svg.classList.remove('play');
+      }}
+    }});
+  }}, {{ threshold: 0.2 }});
+  obs.observe(box);
+}})();
+</script>
 </body>
 </html>'''
 
