@@ -5,7 +5,7 @@
 > Saitama, Japan · good vibes only · [ko-fi](https://ko-fi.com/v0n5ai)
 
 ![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=58a6ff)
-![Repos](https://img.shields.io/badge/Repos-703-58a6ff?style=flat-square)
+![Repos](https://img.shields.io/badge/Repos-705-58a6ff?style=flat-square)
 
 ---
 
@@ -57,11 +57,11 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 
 | 指標 | 値 |
 |---|---:|
-| コントリビューション | **3673** |
-| アクティブ日 | **91 / 93 日** |
-| 公開リポジトリ | **703**（オリジナル 261） |
+| コントリビューション | **3594** |
+| アクティブ日 | **89 / 91 日** |
+| 公開リポジトリ | **705**（オリジナル 262） |
 
-## 🛠️ 使用言語（オリジナル 261 リポジトリ）
+## 🛠️ 使用言語（オリジナル 262 リポジトリ）
 
 | 言語 | 数 | 割合 | 分布 |
 |---|---:|---:|---|
