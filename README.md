@@ -8,8 +8,6 @@
 ![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=3fb950)
 ![Repos](https://img.shields.io/badge/Repos-705-3fb950?style=flat-square)
 
----
-
 ## 📊 GitHub 統計
 
 | 項目 | 数値 |
@@ -41,7 +39,5 @@
 | Go | 9 | 4% | `███▌░░░░░░░░░░░░░░` |
 | Shell | 4 | 2% | `█▌░░░░░░░░░░░░░░░░` |
 | Jupyter Notebook | 4 | 2% | `█▌░░░░░░░░░░░░░░░░` |
-
----
 
 *Stats profile · 作品の物語は [Portfolio](https://bonsai.github.io/bonsai/) · [ko-fi](https://ko-fi.com/v0n5ai)*

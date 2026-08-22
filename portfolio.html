@@ -5,18 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>bonsai — Media Artist Portfolio</title>
 <style>
-/* デザイン3要素: ① 緑の単色アクセント ② ダーク3階調(背景/パネル/線) ③ 円(曼荼羅・角丸) */
+/* デザイン原理（最小限・both で共通）:
+   ① 緑 1 色のみアクセント（--accent）
+   ② ダーク 2 階調（背景 / パネル）
+   ③ 装飾なし・角丸 1 値（--r） */
 :root {
-  --bg: #0d1117; --panel: #161b22; --border: #30363d;
-  --text: #e6edf3; --muted: #8b949e; --accent: #3fb950;
-  --r-lg: 20px; --r-md: 14px; --r-sm: 8px;
+  --bg: #0d1117; --panel: #1e2530;      /* ② ダーク 2 階調 */
+  --text: #e6edf3; --muted: #8b949e;    /* 文字（白 / 灰） */
+  --accent: #3fb950;                    /* ① 緑 1 色 */
+  --r: 14px;                            /* ③ 角丸 1 値 */
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; line-height: 1.8; }
 .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }
 
-header { padding: 44px 24px; background: linear-gradient(160deg, #161b22 0%, #12211a 60%, #0d1117 100%); border: 1px solid var(--border); border-radius: var(--r-lg); margin-bottom: 28px; text-align: center; }
-header img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent); margin-bottom: 14px; }
+header { padding: 44px 24px; background: var(--panel); border-radius: var(--r); margin-bottom: 28px; text-align: center; }
+header img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 14px; }
 header h1 { font-size: 30px; }
 header .role { color: var(--accent); font-weight: 700; letter-spacing: 2px; margin: 6px 0 10px; font-size: 13px; }
 header .statement { color: var(--muted); max-width: 620px; margin: 0 auto 16px; font-size: 14px; }
@@ -24,42 +28,39 @@ header .links a { color: var(--accent); text-decoration: none; margin: 0 10px; f
 header .links a:hover { text-decoration: underline; }
 
 section { margin-bottom: 40px; }
-h2 { font-size: 19px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+h2 { font-size: 19px; margin-bottom: 16px; }
 
 /* Statement */
 .statement-body { color: var(--text); font-size: 14.5px; max-width: 760px; margin: 0 auto 24px; }
 .statement-body em { color: var(--accent); font-style: normal; font-weight: 700; }
 .themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.theme-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px 18px; text-align: center; }
+.theme-card { background: var(--panel); border-radius: var(--r); padding: 20px 18px; text-align: center; }
 .theme-icon { font-size: 30px; margin-bottom: 8px; }
 .theme-card h3 { font-size: 14px; color: var(--accent); margin-bottom: 8px; letter-spacing: 1px; }
 .theme-card p { font-size: 12.5px; color: var(--muted); }
 
 /* 曼荼羅 */
-.shuffle { background: transparent; border: 1px solid var(--border); color: var(--accent); font-size: 15px; border-radius: var(--r-sm); padding: 2px 10px; cursor: pointer; margin-left: 10px; vertical-align: 2px; }
-.shuffle:hover { border-color: var(--accent); }
+.shuffle { background: var(--panel); color: var(--accent); font-size: 14px; border: 0; border-radius: var(--r); padding: 4px 14px; cursor: pointer; margin-left: 10px; }
+.shuffle:hover { color: var(--text); }
 .mandala-note { color: var(--muted); font-size: 12px; margin: -10px 0 16px; }
-.mandala { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; position: relative; }
-.mandala::before { content: ""; position: absolute; inset: -14px; border: 1px dashed #30363d66; border-radius: 50%; pointer-events: none; }
-.m-cell { display: flex; flex-direction: column; gap: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; text-decoration: none; color: var(--text); transition: border-color .15s, transform .15s; animation: mpop .5s cubic-bezier(.34,1.56,.64,1) both; }
-.m-cell:hover { border-color: var(--accent); transform: translateY(-3px); }
-.m-cell:nth-child(5) { border-color: var(--accent); background: linear-gradient(160deg, #1a2b20, #161b22); }
-@keyframes mpop { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+.mandala { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; }
+.m-cell { display: flex; flex-direction: column; gap: 6px; background: var(--panel); border-radius: var(--r); padding: 14px; text-decoration: none; color: var(--text); }
+.m-cell:hover { color: var(--accent); }
+.m-cell:nth-child(5) { background: #1a2b20; }
 .m-genre { font-size: 10px; letter-spacing: 1px; color: var(--accent); font-weight: 700; }
-.m-name { font-size: 14px; font-weight: 700; color: var(--text); word-break: break-all; }
+.m-name { font-size: 14px; font-weight: 700; word-break: break-all; }
 .m-desc { font-size: 11.5px; color: var(--muted); flex: 1; }
 .m-meta { font-size: 10.5px; color: var(--muted); display: flex; justify-content: space-between; }
 .m-lang { color: var(--accent); font-family: ui-monospace, monospace; }
 
-/* Tech stack */
+/* 制作の道具 */
 .stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.stack .card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; }
+.stack .card { background: var(--panel); border-radius: var(--r); padding: 18px; }
 .stack .card h3 { font-size: 14px; color: var(--accent); margin-bottom: 10px; }
 .stack .card ul { list-style: none; font-size: 13px; color: var(--muted); }
-.stack .card li { margin-bottom: 6px; padding-left: 16px; position: relative; }
-.stack .card li::before { content: "○"; position: absolute; left: 0; color: var(--accent); font-size: 9px; top: 3px; }
+.stack .card li { margin-bottom: 6px; }
 
-footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 44px; border-top: 1px solid var(--border); padding-top: 20px; }
+footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 44px; padding-top: 20px; }
 footer a { color: var(--accent); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 
@@ -70,8 +71,8 @@ footer a:hover { text-decoration: underline; }
 }
 @media (max-width: 640px) {
   .wrap { padding: 16px 12px 60px; }
-  header { padding: 28px 16px; border-radius: 16px; margin-bottom: 20px; }
-  header img { width: 68px; height: 68px; border-width: 2px; margin-bottom: 10px; }
+  header { padding: 28px 16px; margin-bottom: 20px; }
+  header img { width: 68px; height: 68px; margin-bottom: 10px; }
   header h1 { font-size: 24px; }
   header .statement { font-size: 13px; }
   header .links a { font-size: 13px; margin: 0 7px; }
@@ -79,8 +80,7 @@ footer a:hover { text-decoration: underline; }
   h2 { font-size: 17px; }
   .statement-body { font-size: 13.5px; }
   .mandala { grid-template-columns: 1fr; max-width: 100%; gap: 8px; }
-  .mandala::before { inset: -8px; }
-  .m-cell { padding: 12px 14px; border-radius: 12px; }
+  .m-cell { padding: 12px 14px; }
   footer { font-size: 11px; }
 }
 </style>
@@ -179,8 +179,8 @@ function renderMandala() {
     pick(GENRE_POOL[g], 3).forEach(function(r) { cells.push({g: g, r: r}); });
   });
   cells = shuffleArr(cells);
-  grid.innerHTML = cells.map(function(c, i) {
-    return '<a class="m-cell" style="animation-delay:' + (i * 0.06) + 's" href="' + c.r.url + '" target="_blank">' +
+  grid.innerHTML = cells.map(function(c) {
+    return '<a class="m-cell" href="' + c.r.url + '" target="_blank">' +
       '<span class="m-genre">' + c.g + '</span>' +
       '<span class="m-name">' + c.r.name + '</span>' +
       '<span class="m-desc">' + (c.r.desc || '—') + '</span>' +
