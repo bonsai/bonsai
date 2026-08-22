@@ -1,53 +1,23 @@
-# 🎛️ bonsai — Media Artist / Creative Technologist
+# 🌱 bonsai — Stats Profile
 
-> **身体の信号と回路と音を、境界なく繋ぐメディアアーティスト**
+> Media Artist · Saitama, Japan · good vibes only
 >
-> Saitama, Japan · good vibes only · [ko-fi](https://ko-fi.com/v0n5ai)
+> 📈 このページは **統計データ** のプロフィール。作品の意味・物語（セマンティクス）は
+> **[🎨 Portfolio](https://bonsai.github.io/bonsai/)** へ。
 
-![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=58a6ff)
-![Repos](https://img.shields.io/badge/Repos-705-58a6ff?style=flat-square)
+![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=3fb950)
+![Repos](https://img.shields.io/badge/Repos-705-3fb950?style=flat-square)
 
 ---
 
-## 🧬 Artist Statement
+## 📊 GitHub 統計
 
-RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハードウェア**で、心電図・声紋・LED・音を扱う作品を制作しています。
-微弱な生体信号を回路で増幅し、エッジ上の TinyML で意味を与え、光と音として身体に返す——**センシングから表現までを一貫して自作**することが私の制作スタイルです。
-
-## 🫀 Selected Works — Physical & Interactive
-
-### Body
-
-- **[uiap-ecg-monitor](https://github.com/bonsai/uiap-ecg-monitor)** — 自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。 `C / CH32V203 / TinyML`
-- **[uiap-voiceprint-auth](https://github.com/bonsai/uiap-voiceprint-auth)** — 声紋認証 — エッジ端末(CH32V003)上で MFCC による話者識別。サーボモーターで物理ロックを制御。 `C / DSP / MFCC`
-- **[uiap-sensor-hid](https://github.com/bonsai/uiap-sensor-hid)** — USB HID センサー — RESET ボタンを HID デバイスとして MQTT ブリッジに接続する IoT インターフェース。 `C / USB HID / MQTT`
-- **[microbit-smartlock](https://github.com/bonsai/microbit-smartlock)** — micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。 `Python / micro:bit`
-
-### Light
-
-- **[led-board](https://github.com/bonsai/led-board)** — 電光掲示板 (LED Board) — 光の文字盤。Web から駆動する LED ボード。 `TypeScript / HTML`
-- **[denkou-keijiban](https://github.com/bonsai/denkou-keijiban)** — LED Board — 電光掲示板の Web 版。 `HTML`
-- **[uiapduino-4led](https://github.com/bonsai/uiapduino-4led)** — 290円 RISC-V マイコン(CH32V003)で 4 LED を駆動 — 最小コストの光の制御実験。 `C / Arduino`
-- **[led-poc](https://github.com/bonsai/led-poc)** — LED 表現の PoC 群（GDScript による光のシミュレーション）。 `GDScript`
-- **[wifi-visualizer](https://github.com/bonsai/wifi-visualizer)** — WiFi 可視化 — 空間の電波を光として捉える。 `HTML`
-
-### Sound
-
-- **[4bit-music-riscv](https://github.com/bonsai/4bit-music-riscv)** — 4-bit music on RISC-V — チップ上のレジスタで 4bit 音楽を鳴らす。 `RISC-V / HTML`
-- **[audio-patch-simulator-next](https://github.com/bonsai/audio-patch-simulator-next)** — モジュラーシンセ風パッチシミュレータ — Web Audio でケーブルを繋ぐ音の実験。 `JavaScript / Web Audio`
-- **[sound-gen](https://github.com/bonsai/sound-gen)** — AudioGen + MusicGen による lo-fi hiphop 生成パイプライン。 `Python / Jupyter`
-- **[8bit-Jazz](https://github.com/bonsai/8bit-Jazz)** — 8bit ジャズ — 制約の上に音楽を載せる試み。 `HTML`
-- **[midi-to-score](https://github.com/bonsai/midi-to-score)** — MIDI → 楽譜変換 — 音楽情報処理の実験。 `OCaml`
-
-
-## 🛠️ Tech Stack
-
-| 領域 | 技術 |
-|---|---|
-| ハードウェア | RISC-V マイコン (CH32V003/203/307) · Arduino · micro:bit · USB HID · MQTT · BLE |
-| 信号処理 | MFCC / DSP / Pan-Tompkins · TinyML (BitNetMCU) · 固定小数点数演算 |
-| メディア | Web Audio API · GLSL · リアルタイムレンダリング |
-| 言語 | C · Python · TypeScript · JavaScript · GDScript · Elm · OCaml |
+| 項目 | 数値 |
+|---|---:|
+| 公開リポジトリ | **705** |
+| オリジナル | **262** |
+| フォーク | **443** |
+| GitHub 歴 | **18+ 年** (2008〜) |
 
 ## 🌱 直近 3 ヶ月の活動
 
@@ -57,7 +27,7 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 |---|---:|
 | コントリビューション | **3594** |
 | アクティブ日 | **89 / 91 日** |
-| 公開リポジトリ | **705**（オリジナル 262） |
+| プッシュ頻度 | ほぼ毎日 |
 
 ## 🛠️ 使用言語（オリジナル 262 リポジトリ）
 
@@ -74,4 +44,4 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 
 ---
 
-*このプロフィールは GitHub API の統計から自動生成されています。*
+*Stats profile · 作品の物語は [Portfolio](https://bonsai.github.io/bonsai/) · [ko-fi](https://ko-fi.com/v0n5ai)*

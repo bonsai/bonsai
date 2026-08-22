@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""GitHub @bonsai のメディアアート求人向けポートフォリオ生成（フィジカル寄り focus）"""
-import json, collections, datetime, html
+"""
+bonsai — 棲み分け構成
+  README.md      = Stats（統計・データ）→ https://github.com/bonsai
+  portfolio.html = Semantics（作品の意味・物語）→ https://bonsai.github.io/bonsai/
+"""
+import json, collections, html
 
 DATA = "bonsai_repos.jsonl"
 KUSA = "kusa_3mo.json"
@@ -11,30 +15,31 @@ OUT_MD = "README.md"
 repos = [json.loads(l) for l in open(DATA) if l.strip()]
 orig = [r for r in repos if not r["fork"]]
 
-# ============ フィジカル作品データ（メディアアート向け・3ジャンル曼荼羅） ============
-# README 用の静的リスト。HTML の曼荼羅は jsonl から動的抽出する。
+# ============ 作品データ（セマンティクス用・3ジャンル） ============
+# (name, コンセプト説明, 技術)
 WORKS = {
     "Body": [
-        ("uiap-ecg-monitor", "自作心電図計 — アナログフロントエンド + RISC-V で生体信号を可視化。計装アンプ(AD620)・Pan-Tompkins R波検出・TinyML 異常分類。", "C / CH32V203 / TinyML"),
-        ("uiap-voiceprint-auth", "声紋認証 — エッジ端末(CH32V003)上で MFCC による話者識別。サーボモーターで物理ロックを制御。", "C / DSP / MFCC"),
-        ("uiap-sensor-hid", "USB HID センサー — RESET ボタンを HID デバイスとして MQTT ブリッジに接続する IoT インターフェース。", "C / USB HID / MQTT"),
-        ("microbit-smartlock", "micro:bit スマートロック — 古いスマホ + povo 2.0 で月額ほぼ0円の DIY スマートロック。", "Python / micro:bit"),
+        ("uiap-ecg-monitor", "心臓の鼓動を回路が聴く。計装アンプで微弱な生体電位を増幅し、RISC-V で R 波を検出・TinyML で異常を分類する自作心電図計。", "C / CH32V203 / TinyML"),
+        ("uiap-voiceprint-auth", "声は鍵になる。エッジ端末で MFCC により声紋を識別し、サーボモーターで物理ロックを開く。", "C / DSP / MFCC"),
+        ("uiap-sensor-hid", "ボタンひとつを世界に繋ぐ。RESET ボタンを USB HID デバイスとして MQTT ブリッジ化する IoT インターフェース。", "C / USB HID / MQTT"),
+        ("microbit-smartlock", "身体の接近で扉が開く。micro:bit と古いスマホで作る DIY スマートロック。", "Python / micro:bit"),
     ],
     "Light": [
-        ("led-board", "電光掲示板 (LED Board) — 光の文字盤。Web から駆動する LED ボード。", "TypeScript / HTML"),
-        ("denkou-keijiban", "LED Board — 電光掲示板の Web 版。", "HTML"),
-        ("uiapduino-4led", "290円 RISC-V マイコン(CH32V003)で 4 LED を駆動 — 最小コストの光の制御実験。", "C / Arduino"),
-        ("led-poc", "LED 表現の PoC 群（GDScript による光のシミュレーション）。", "GDScript"),
-        ("wifi-visualizer", "WiFi 可視化 — 空間の電波を光として捉える。", "HTML"),
+        ("led-board", "言葉を光に変える電光掲示板。Web から駆動する LED ボード。", "TypeScript / HTML"),
+        ("denkou-keijiban", "電光掲示板の Web 版。文字を光の粒として流す。", "HTML"),
+        ("uiapduino-4led", "290円の回路に宿る光。CH32V003 RISC-V マイコンで 4 つの LED を駆動する最小の光の実験。", "C / Arduino"),
+        ("led-poc", "光の表現の実験ノート。GDScript による LED シミュレーション。", "GDScript"),
+        ("wifi-visualizer", "空間に漂う電波を光として見る WiFi 可視化。", "HTML"),
     ],
     "Sound": [
-        ("4bit-music-riscv", "4-bit music on RISC-V — チップ上のレジスタで 4bit 音楽を鳴らす。", "RISC-V / HTML"),
-        ("audio-patch-simulator-next", "モジュラーシンセ風パッチシミュレータ — Web Audio でケーブルを繋ぐ音の実験。", "JavaScript / Web Audio"),
-        ("sound-gen", "AudioGen + MusicGen による lo-fi hiphop 生成パイプライン。", "Python / Jupyter"),
-        ("8bit-Jazz", "8bit ジャズ — 制約の上に音楽を載せる試み。", "HTML"),
-        ("midi-to-score", "MIDI → 楽譜変換 — 音楽情報処理の実験。", "OCaml"),
+        ("4bit-music-riscv", "チップのレジスタが奏でる 4bit 音楽。RISC-V 上で音楽を鳴らす。", "RISC-V / HTML"),
+        ("audio-patch-simulator-next", "ケーブルで繋ぐ音の宇宙。Web Audio でモジュラーシンセのパッチを再現する。", "JavaScript / Web Audio"),
+        ("sound-gen", "AI が紡ぐ lo-fi hiphop。AudioGen + MusicGen による生成パイプライン。", "Python / Jupyter"),
+        ("8bit-Jazz", "制約の上に乗るジャズ。8bit の世界で音楽を探る。", "HTML"),
+        ("midi-to-score", "音を記号に、記号を音に。MIDI から楽譜へ変換する音楽情報処理。", "OCaml"),
     ],
 }
+WORK_DESC = {name: (desc, tech) for cat, items in WORKS.items() for name, desc, tech in items}
 
 # jsonl と同期した動的ジャンル抽出（曼荼羅用）
 GENRE_KEYWORDS = {
@@ -44,7 +49,7 @@ GENRE_KEYWORDS = {
 }
 
 def build_genre_pool(orig_repos):
-    """jsonl のリポジトリからジャンル別プールを作る（1リポジトリ=1ジャンル、優先順 Body→Light→Sound）"""
+    """jsonl からジャンル別プールを作る。説明は WORKS のコンセプトを優先（jsonl 同期）。"""
     pool = {g: [] for g in GENRE_KEYWORDS}
     assigned = set()
     for r in sorted(orig_repos, key=lambda x: x.get("pushed_at") or "", reverse=True):
@@ -53,10 +58,17 @@ def build_genre_pool(orig_repos):
         text = (r["name"] + " " + (r["description"] or "")).lower()
         for g, kws in GENRE_KEYWORDS.items():
             if any(k in text for k in kws):
+                if r["name"] in WORK_DESC:
+                    desc, tech = WORK_DESC[r["name"]]
+                    lang = tech.split(" / ")[0]
+                else:
+                    desc, tech = (r["description"] or "")[:80], ""
+                    lang = r["language"] or ""
                 pool[g].append({
                     "name": html.escape(r["name"]),
-                    "desc": html.escape((r["description"] or "")[:80]),
-                    "lang": r["language"] or "",
+                    "desc": html.escape(desc),
+                    "lang": html.escape(lang),
+                    "tech": html.escape(tech),
                     "url": f"https://github.com/bonsai/{r['name']}",
                     "pushed": (r.get("pushed_at") or "")[:10],
                 })
@@ -66,13 +78,12 @@ def build_genre_pool(orig_repos):
 
 GENRE_POOL = build_genre_pool(orig)
 
-# 直近3ヶ月の草
+# ============ 統計（README 用） ============
 kusa = json.load(open(KUSA))
 kusa_total = kusa["totalContributions"]
 kusa_days = sum(len(w["contributionDays"]) for w in kusa["weeks"])
 kusa_active = sum(1 for w in kusa["weeks"] for d in w["contributionDays"] if d["contributionCount"] > 0)
 
-# ============ 統計 ============
 total = len(repos)
 n_orig, n_fork = len(orig), len(repos) - len(orig)
 langs = collections.Counter(r["language"] for r in orig if r["language"])
@@ -80,7 +91,6 @@ lang_top = langs.most_common(8)
 lang_total = sum(langs.values())
 lang_max = lang_top[0][1] if lang_top else 1
 
-# 絵文字バー (10マス)
 BLOCKS = ["░", "▏", "▎", "▍", "▌", "▋", "▊", "▉", "█"]
 def bar(v, mx, width=18):
     if mx <= 0: return "░" * width
@@ -96,49 +106,29 @@ md_lang = "\n".join(
     f"| {lang} | {v} | {v / lang_total * 100:.0f}% | `{bar(v, lang_max)}` |"
     for lang, v in lang_top)
 
-# kusa SVG を読み込み、インライン用に class を付与
-KUSA_SVG = open("kusa.svg", encoding="utf-8").read()
-INLINE_KUSA = KUSA_SVG.replace('<svg class="kusa-svg"', '<svg class="kusa-svg inpage"', 1)
+# ============================================================
+# README.md — Stats（統計・データのプロフィール）
+# ============================================================
+readme = f'''# 🌱 bonsai — Stats Profile
 
-# ============ README (メディアアート求人向け) ============
-def works_md():
-    out = []
-    for cat, items in WORKS.items():
-        out.append(f"### {cat}")
-        out.append("")
-        for name, desc, tech in items:
-            out.append(f"- **[{name}](https://github.com/bonsai/{name})** — {desc} `{tech}`")
-        out.append("")
-    return "\n".join(out)
-
-readme = f'''# 🎛️ bonsai — Media Artist / Creative Technologist
-
-> **身体の信号と回路と音を、境界なく繋ぐメディアアーティスト**
+> Media Artist · Saitama, Japan · good vibes only
 >
-> Saitama, Japan · good vibes only · [ko-fi](https://ko-fi.com/v0n5ai)
+> 📈 このページは **統計データ** のプロフィール。作品の意味・物語（セマンティクス）は
+> **[🎨 Portfolio](https://bonsai.github.io/bonsai/)** へ。
 
-![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=58a6ff)
-![Repos](https://img.shields.io/badge/Repos-{total}-58a6ff?style=flat-square)
+![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=3fb950)
+![Repos](https://img.shields.io/badge/Repos-{total}-3fb950?style=flat-square)
 
 ---
 
-## 🧬 Artist Statement
+## 📊 GitHub 統計
 
-RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハードウェア**で、心電図・声紋・LED・音を扱う作品を制作しています。
-微弱な生体信号を回路で増幅し、エッジ上の TinyML で意味を与え、光と音として身体に返す——**センシングから表現までを一貫して自作**することが私の制作スタイルです。
-
-## 🫀 Selected Works — Physical & Interactive
-
-{works_md()}
-
-## 🛠️ Tech Stack
-
-| 領域 | 技術 |
-|---|---|
-| ハードウェア | RISC-V マイコン (CH32V003/203/307) · Arduino · micro:bit · USB HID · MQTT · BLE |
-| 信号処理 | MFCC / DSP / Pan-Tompkins · TinyML (BitNetMCU) · 固定小数点数演算 |
-| メディア | Web Audio API · GLSL · リアルタイムレンダリング |
-| 言語 | C · Python · TypeScript · JavaScript · GDScript · Elm · OCaml |
+| 項目 | 数値 |
+|---|---:|
+| 公開リポジトリ | **{total}** |
+| オリジナル | **{n_orig}** |
+| フォーク | **{n_fork}** |
+| GitHub 歴 | **18+ 年** (2008〜) |
 
 ## 🌱 直近 3 ヶ月の活動
 
@@ -148,7 +138,7 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 |---|---:|
 | コントリビューション | **{kusa_total}** |
 | アクティブ日 | **{kusa_active} / {kusa_days} 日** |
-| 公開リポジトリ | **{total}**（オリジナル {n_orig}） |
+| プッシュ頻度 | ほぼ毎日 |
 
 ## 🛠️ 使用言語（オリジナル {n_orig} リポジトリ）
 
@@ -158,25 +148,51 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 
 ---
 
-*このプロフィールは GitHub API の統計から自動生成されています。*
+*Stats profile · 作品の物語は [Portfolio](https://bonsai.github.io/bonsai/) · [ko-fi](https://ko-fi.com/v0n5ai)*
 '''
 
-# ============ HTML (ポートフォリオページ) ============
+# ============================================================
+# portfolio.html — Semantics（作品の意味・物語）
+# ============================================================
 def esc(s): return html.escape(s or "")
 
-# ===== 曼荼羅（3ジャンル×3作品、毎回ランダム配置）=====
 GENRE_JSON = json.dumps(GENRE_POOL, ensure_ascii=False)
+pool_count = sum(len(v) for v in GENRE_POOL.values())
+
 works_html = f'''<section id="mandala-sec">
   <h2>🕉️ Works Mandala <button class="shuffle" onclick="reshuffle()" title="入れ替える">🔄</button></h2>
-  <p class="mandala-note">3 ジャンル × 3 作品 = 9 マス · 開くたびに入れ替わる · <span class="pool-count">{sum(len(v) for v in GENRE_POOL.values())} repos in pool (jsonl 同期)</span></p>
+  <p class="mandala-note">3 ジャンル × 3 作品 = 9 マス · 開くたびに入れ替わる · {pool_count} 作品から jsonl 同期で抽出</p>
   <div class="mandala" id="mandala"></div>
 </section>'''
 
-lang_bars = "\n".join(
-    f'''<div class="bar-row"><div class="bar-label">{esc(lang)}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:{round(v / lang_max * 100, 1)}%"></div></div>
-    <div class="bar-val">{v}</div></div>'''
-    for lang, v in lang_top)
+# 3テーマ（セマンティクス）
+themes_html = f'''
+<section id="statement">
+  <h2>🧬 Artist Statement</h2>
+  <p class="statement-body">
+    私は <strong>身体・光・音</strong> という 3 つの領域で、センサーと回路とコードを跨いで作品を制作するメディアアーティストです。<br>
+    RISC-V マイコン (CH32V シリーズ) を中心にした<strong>自作ハードウェア</strong>で、心電図という身体の内側の信号、声紋という個人の痕跡、
+    290円の回路に宿る光、そしてチップ上の 4bit 音楽——<em>見えないものを可視化・可聴化</em>します。<br>
+    センシングから表現までを<strong>一貫して自作</strong>することが私の制作スタイルです。
+  </p>
+  <div class="themes">
+    <div class="theme-card">
+      <div class="theme-icon">🫀</div>
+      <h3>Body — 身体</h3>
+      <p>微弱な生体信号を回路で増幅し、意味を与える。心電図・声紋・ボタンの触覚。</p>
+    </div>
+    <div class="theme-card">
+      <div class="theme-icon">💡</div>
+      <h3>Light — 光</h3>
+      <p>290円の RISC-V マイコンから電光掲示板まで。光を最小のコストで制御する。</p>
+    </div>
+    <div class="theme-card">
+      <div class="theme-icon">🔊</div>
+      <h3>Sound — 音</h3>
+      <p>チップ上のレジスタから Web Audio、AI 生成まで。制約の上に音楽を載せる。</p>
+    </div>
+  </div>
+</section>'''
 
 h = f'''<!DOCTYPE html>
 <html lang="ja">
@@ -187,63 +203,38 @@ h = f'''<!DOCTYPE html>
 <style>
 /* デザイン3要素: ① 緑の単色アクセント ② ダーク3階調(背景/パネル/線) ③ 円(曼荼羅・角丸) */
 :root {{
-  /* ② ダーク 3 階調 */
   --bg: #0d1117; --panel: #161b22; --border: #30363d;
-  /* テキスト + ① 緑の単色アクセント */
   --text: #e6edf3; --muted: #8b949e; --accent: #3fb950;
-  /* ③ 円: 角丸 3 段階 */
   --r-lg: 20px; --r-md: 14px; --r-sm: 8px;
 }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{ background: var(--bg); color: var(--text); font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; line-height: 1.7; }}
+body {{ background: var(--bg); color: var(--text); font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; line-height: 1.8; }}
 .wrap {{ max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }}
 
-header {{ padding: 40px 24px; background: linear-gradient(135deg, #161b22 0%, #1a1f2e 100%); border: 1px solid var(--border); border-radius: var(--r-lg); margin-bottom: 28px; text-align: center; }}
+header {{ padding: 44px 24px; background: linear-gradient(160deg, #161b22 0%, #12211a 60%, #0d1117 100%); border: 1px solid var(--border); border-radius: var(--r-lg); margin-bottom: 28px; text-align: center; }}
 header img {{ width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent); margin-bottom: 14px; }}
 header h1 {{ font-size: 30px; }}
-header .role {{ color: var(--accent); font-weight: 700; letter-spacing: 1px; margin: 6px 0 10px; }}
-header .statement {{ color: var(--muted); max-width: 640px; margin: 0 auto 14px; font-size: 14px; }}
+header .role {{ color: var(--accent); font-weight: 700; letter-spacing: 2px; margin: 6px 0 10px; font-size: 13px; }}
+header .statement {{ color: var(--muted); max-width: 620px; margin: 0 auto 16px; font-size: 14px; }}
 header .links a {{ color: var(--accent); text-decoration: none; margin: 0 10px; font-size: 14px; }}
 header .links a:hover {{ text-decoration: underline; }}
 
-.stats {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; margin-bottom: 36px; }}
-.tile {{ background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }}
-.tile .num {{ font-size: 28px; font-weight: 700; color: var(--accent); }}
-.tile .lbl {{ color: var(--muted); font-size: 12px; margin-top: 4px; }}
+section {{ margin-bottom: 40px; }}
+h2 {{ font-size: 19px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }}
 
-section {{ margin-bottom: 36px; }}
-h2 {{ font-size: 19px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }}
+/* Statement */
+.statement-body {{ color: var(--text); font-size: 14.5px; max-width: 760px; margin: 0 auto 24px; }}
+.statement-body em {{ color: var(--accent); font-style: normal; font-weight: 700; }}
+.themes {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }}
+.theme-card {{ background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 20px 18px; text-align: center; }}
+.theme-icon {{ font-size: 30px; margin-bottom: 8px; }}
+.theme-card h3 {{ font-size: 14px; color: var(--accent); margin-bottom: 8px; letter-spacing: 1px; }}
+.theme-card p {{ font-size: 12.5px; color: var(--muted); }}
 
-.cards {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }}
-.card {{ background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: border-color .15s, transform .15s; }}
-.card:hover {{ border-color: var(--accent); transform: translateY(-2px); }}
-.card-title {{ color: var(--accent); font-weight: 700; font-size: 15px; text-decoration: none; }}
-.card-title:hover {{ text-decoration: underline; }}
-.card-desc {{ color: var(--muted); font-size: 13px; margin: 8px 0 10px; }}
-.card-meta {{ font-size: 12px; }}
-.tech {{ color: var(--accent); font-family: ui-monospace, monospace; font-size: 11px; }}
-
-.kusa-box {{ background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 14px; }}
-.kusa-box img, .kusa-box svg {{ width: 100%; max-width: 480px; display: block; margin: 0 auto; }}
-
-.bar-row {{ display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 13px; }}
-.bar-label {{ width: 130px; text-align: right; color: var(--muted); white-space: nowrap; }}
-.bar-track {{ flex: 1; height: 18px; background: #21262d; border-radius: 9px; overflow: hidden; }}
-.bar-fill {{ height: 100%; border-radius: 9px; min-width: 2px; background: var(--accent); }}
-.bar-val {{ width: 44px; font-weight: 600; }}
-
-.stack {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }}
-.stack .card h3 {{ font-size: 14px; color: var(--accent); margin-bottom: 8px; }}
-.stack .card ul {{ list-style: none; font-size: 13px; color: var(--muted); }}
-.stack .card li {{ margin-bottom: 4px; }}
-
-footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }}
-
-/* ===== 曼荼羅 ===== */
+/* 曼荼羅 */
 .shuffle {{ background: transparent; border: 1px solid var(--border); color: var(--accent); font-size: 15px; border-radius: var(--r-sm); padding: 2px 10px; cursor: pointer; margin-left: 10px; vertical-align: 2px; }}
 .shuffle:hover {{ border-color: var(--accent); }}
-.mandala-note {{ color: var(--muted); font-size: 12px; margin: -8px 0 14px; }}
-.pool-count {{ color: var(--accent); }}
+.mandala-note {{ color: var(--muted); font-size: 12px; margin: -10px 0 16px; }}
 .mandala {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; position: relative; }}
 .mandala::before {{ content: ""; position: absolute; inset: -14px; border: 1px dashed #30363d66; border-radius: 50%; pointer-events: none; }}
 .m-cell {{ display: flex; flex-direction: column; gap: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; text-decoration: none; color: var(--text); transition: border-color .15s, transform .15s; animation: mpop .5s cubic-bezier(.34,1.56,.64,1) both; }}
@@ -256,10 +247,22 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
 .m-meta {{ font-size: 10.5px; color: var(--muted); display: flex; justify-content: space-between; }}
 .m-lang {{ color: var(--accent); font-family: ui-monospace, monospace; }}
 
+/* Tech stack */
+.stack {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }}
+.stack .card {{ background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; }}
+.stack .card h3 {{ font-size: 14px; color: var(--accent); margin-bottom: 10px; }}
+.stack .card ul {{ list-style: none; font-size: 13px; color: var(--muted); }}
+.stack .card li {{ margin-bottom: 6px; padding-left: 16px; position: relative; }}
+.stack .card li::before {{ content: "○"; position: absolute; left: 0; color: var(--accent); font-size: 9px; top: 3px; }}
+
+footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 44px; border-top: 1px solid var(--border); padding-top: 20px; }}
+footer a {{ color: var(--accent); text-decoration: none; }}
+footer a:hover {{ text-decoration: underline; }}
+
 /* ===== スマホ最適化 ===== */
 @media (max-width: 900px) {{
   .mandala {{ grid-template-columns: repeat(2, 1fr); max-width: 560px; }}
-  .stack {{ grid-template-columns: 1fr; }}
+  .themes, .stack {{ grid-template-columns: 1fr; }}
 }}
 @media (max-width: 640px) {{
   .wrap {{ padding: 16px 12px 60px; }}
@@ -268,17 +271,12 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
   header h1 {{ font-size: 24px; }}
   header .statement {{ font-size: 13px; }}
   header .links a {{ font-size: 13px; margin: 0 7px; }}
-  .stats {{ grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }}
-  .tile {{ padding: 14px 8px; border-radius: 10px; }}
-  .tile .num {{ font-size: 22px; }}
   section {{ margin-bottom: 28px; }}
   h2 {{ font-size: 17px; }}
+  .statement-body {{ font-size: 13.5px; }}
   .mandala {{ grid-template-columns: 1fr; max-width: 100%; gap: 8px; }}
   .mandala::before {{ inset: -8px; }}
   .m-cell {{ padding: 12px 14px; border-radius: 12px; }}
-  .kusa-box {{ padding: 14px 10px; border-radius: 12px; }}
-  .bar-label {{ width: 96px; font-size: 12px; }}
-  .bar-row {{ font-size: 12px; }}
   footer {{ font-size: 11px; }}
 }}
 </style>
@@ -290,32 +288,19 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
   <img src="https://avatars.githubusercontent.com/u/24775?v=4" alt="bonsai">
   <h1>bonsai <span style="font-size:15px;color:var(--muted);font-weight:400">/ v0n5ai</span></h1>
   <div class="role">MEDIA ARTIST / CREATIVE TECHNOLOGIST</div>
-  <p class="statement">身体の信号と回路と音を、境界なく繋ぐメディアアーティスト。RISC-V マイコンを中心にした自作ハードウェアで、心電図・声紋・LED・音を扱う作品を制作。センシングから表現までを一貫して自作する。</p>
+  <p class="statement">身体・光・音を、センサーと回路とコードで繋ぐメディアアーティスト。<br>センシングから表現までを一貫して自作する。</p>
   <div class="links">
     <a href="https://github.com/bonsai">GitHub</a>
     <a href="https://ko-fi.com/v0n5ai">ko-fi</a>
-    <a href="https://github.com/bonsai?tab=repositories">Repositories</a>
   </div>
 </header>
 
-<section id="kusa-anim">
-  <h2>🌱 直近 3 ヶ月の活動</h2>
-  <div class="kusa-box">
-    {INLINE_KUSA}
-  </div>
-</section>
-
-<div class="stats">
-  <div class="tile"><div class="num">{kusa_total}</div><div class="lbl">直近3ヶ月の貢献</div></div>
-  <div class="tile"><div class="num">{kusa_active}/{kusa_days}</div><div class="lbl">アクティブ日</div></div>
-  <div class="tile"><div class="num">{n_orig}</div><div class="lbl">オリジナル作品</div></div>
-  <div class="tile"><div class="num">{total}</div><div class="lbl">公開リポジトリ</div></div>
-</div>
+{themes_html}
 
 {works_html}
 
 <section>
-  <h2>🛠️ 技術スタック</h2>
+  <h2>🛠️ 制作の道具</h2>
   <div class="stack">
     <div class="card"><h3>ハードウェア</h3><ul>
       <li>RISC-V マイコン (CH32V003/203/307)</li>
@@ -335,12 +320,9 @@ footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 
   </div>
 </section>
 
-<section>
-  <h2>言語分布（オリジナル {n_orig} リポジトリ）</h2>
-  {lang_bars}
-</section>
-
-<footer>Generated from GitHub API · 2026-08-22</footer>
+<footer>
+  📈 統計・活動データは <a href="https://github.com/bonsai">GitHub プロフィール</a> へ · <a href="https://ko-fi.com/v0n5ai">ko-fi</a>
+</footer>
 </div>
 <script>
 // ===== 曼荼羅（3ジャンル×3作品を毎回ランダム配置）=====
@@ -375,34 +357,12 @@ function renderMandala() {{
 function reshuffle() {{ renderMandala(); }}
 renderMandala();
 </script>
-<script>
-(function() {{
-  var box = document.getElementById('kusa-anim');
-  if (!box) return;
-  var svg = box.querySelector('svg');
-  if (!svg) return;
-  var obs = new IntersectionObserver(function(entries) {{
-    entries.forEach(function(e) {{
-      if (e.isIntersecting) {{
-        // 可視領域に入るたびに再生し直す（スクロール連動）
-        svg.classList.remove('play');
-        void svg.getBoundingClientRect();
-        svg.classList.add('play');
-      }} else {{
-        svg.classList.remove('play');
-      }}
-    }});
-  }}, {{ threshold: 0.2 }});
-  obs.observe(box);
-}})();
-</script>
 </body>
 </html>'''
 
 open(OUT_MD, "w", encoding="utf-8").write(readme)
 open(OUT, "w", encoding="utf-8").write(h)
-# GitHub Pages 用: ルート URL で開けるよう index.html にも出力
 open("index.html", "w", encoding="utf-8").write(h)
-print(f"OK: {OUT_MD} ({len(readme):,} bytes)")
-print(f"OK: {OUT} ({len(h):,} bytes)")
+print(f"OK: {OUT_MD} (stats) {len(readme):,} bytes")
+print(f"OK: {OUT} (semantics) {len(h):,} bytes")
 print("OK: index.html (Pages 用コピー)")
