@@ -162,16 +162,6 @@ RISC-V マイコン (WCH CH32V シリーズ) を中心にした**自作ハード
 '''
 
 # ============ HTML (ポートフォリオページ) ============
-def lang_color(lang):
-    palette = {
-        "HTML": "#e34c26", "Python": "#3572A5", "TypeScript": "#3178c6",
-        "JavaScript": "#f1e05a", "PowerShell": "#012456", "Go": "#00ADD8",
-        "Shell": "#89e051", "Jupyter Notebook": "#DA5B0B", "Java": "#b07219",
-        "Rust": "#dea584", "OCaml": "#ef7a08", "C#": "#178600", "C": "#555555",
-        "GDScript": "#355570", "Elm": "#60B5CC", "Ruby": "#701516", "Svelte": "#ff3e00",
-    }
-    return palette.get(lang, "#8b949e")
-
 def esc(s): return html.escape(s or "")
 
 # ===== 曼荼羅（3ジャンル×3作品、毎回ランダム配置）=====
@@ -184,7 +174,7 @@ works_html = f'''<section id="mandala-sec">
 
 lang_bars = "\n".join(
     f'''<div class="bar-row"><div class="bar-label">{esc(lang)}</div>
-    <div class="bar-track"><div class="bar-fill" style="width:{round(v / lang_max * 100, 1)}%;background:{lang_color(lang)}"></div></div>
+    <div class="bar-track"><div class="bar-fill" style="width:{round(v / lang_max * 100, 1)}%"></div></div>
     <div class="bar-val">{v}</div></div>'''
     for lang, v in lang_top)
 
@@ -195,25 +185,30 @@ h = f'''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>bonsai — Media Artist Portfolio</title>
 <style>
+/* デザイン3要素: ① 緑の単色アクセント ② ダーク3階調(背景/パネル/線) ③ 円(曼荼羅・角丸) */
 :root {{
+  /* ② ダーク 3 階調 */
   --bg: #0d1117; --panel: #161b22; --border: #30363d;
-  --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff; --green: #3fb950;
+  /* テキスト + ① 緑の単色アクセント */
+  --text: #e6edf3; --muted: #8b949e; --accent: #3fb950;
+  /* ③ 円: 角丸 3 段階 */
+  --r-lg: 20px; --r-md: 14px; --r-sm: 8px;
 }}
 * {{ box-sizing: border-box; margin: 0; padding: 0; }}
 body {{ background: var(--bg); color: var(--text); font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; line-height: 1.7; }}
 .wrap {{ max-width: 980px; margin: 0 auto; padding: 32px 20px 80px; }}
 
-header {{ padding: 40px 24px; background: linear-gradient(135deg, #161b22 0%, #1a1f2e 100%); border: 1px solid var(--border); border-radius: 20px; margin-bottom: 28px; text-align: center; }}
-header img {{ width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--green); margin-bottom: 14px; }}
+header {{ padding: 40px 24px; background: linear-gradient(135deg, #161b22 0%, #1a1f2e 100%); border: 1px solid var(--border); border-radius: var(--r-lg); margin-bottom: 28px; text-align: center; }}
+header img {{ width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--accent); margin-bottom: 14px; }}
 header h1 {{ font-size: 30px; }}
-header .role {{ color: var(--green); font-weight: 700; letter-spacing: 1px; margin: 6px 0 10px; }}
+header .role {{ color: var(--accent); font-weight: 700; letter-spacing: 1px; margin: 6px 0 10px; }}
 header .statement {{ color: var(--muted); max-width: 640px; margin: 0 auto 14px; font-size: 14px; }}
 header .links a {{ color: var(--accent); text-decoration: none; margin: 0 10px; font-size: 14px; }}
 header .links a:hover {{ text-decoration: underline; }}
 
 .stats {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; margin-bottom: 36px; }}
 .tile {{ background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }}
-.tile .num {{ font-size: 28px; font-weight: 700; color: var(--green); }}
+.tile .num {{ font-size: 28px; font-weight: 700; color: var(--accent); }}
 .tile .lbl {{ color: var(--muted); font-size: 12px; margin-top: 4px; }}
 
 section {{ margin-bottom: 36px; }}
@@ -221,12 +216,12 @@ h2 {{ font-size: 19px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 
 
 .cards {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }}
 .card {{ background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: border-color .15s, transform .15s; }}
-.card:hover {{ border-color: var(--green); transform: translateY(-2px); }}
+.card:hover {{ border-color: var(--accent); transform: translateY(-2px); }}
 .card-title {{ color: var(--accent); font-weight: 700; font-size: 15px; text-decoration: none; }}
 .card-title:hover {{ text-decoration: underline; }}
 .card-desc {{ color: var(--muted); font-size: 13px; margin: 8px 0 10px; }}
 .card-meta {{ font-size: 12px; }}
-.tech {{ color: var(--green); font-family: ui-monospace, monospace; font-size: 11px; }}
+.tech {{ color: var(--accent); font-family: ui-monospace, monospace; font-size: 11px; }}
 
 .kusa-box {{ background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 14px; }}
 .kusa-box img, .kusa-box svg {{ width: 100%; max-width: 480px; display: block; margin: 0 auto; }}
@@ -234,32 +229,58 @@ h2 {{ font-size: 19px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 
 .bar-row {{ display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 13px; }}
 .bar-label {{ width: 130px; text-align: right; color: var(--muted); white-space: nowrap; }}
 .bar-track {{ flex: 1; height: 18px; background: #21262d; border-radius: 9px; overflow: hidden; }}
-.bar-fill {{ height: 100%; border-radius: 9px; min-width: 2px; }}
+.bar-fill {{ height: 100%; border-radius: 9px; min-width: 2px; background: var(--accent); }}
 .bar-val {{ width: 44px; font-weight: 600; }}
 
 .stack {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }}
-.stack .card h3 {{ font-size: 14px; color: var(--green); margin-bottom: 8px; }}
+.stack .card h3 {{ font-size: 14px; color: var(--accent); margin-bottom: 8px; }}
 .stack .card ul {{ list-style: none; font-size: 13px; color: var(--muted); }}
 .stack .card li {{ margin-bottom: 4px; }}
 
 footer {{ text-align: center; color: var(--muted); font-size: 12px; margin-top: 40px; }}
 
 /* ===== 曼荼羅 ===== */
-.shuffle {{ background: transparent; border: 1px solid var(--border); color: var(--accent); font-size: 15px; border-radius: 8px; padding: 2px 10px; cursor: pointer; margin-left: 10px; vertical-align: 2px; }}
+.shuffle {{ background: transparent; border: 1px solid var(--border); color: var(--accent); font-size: 15px; border-radius: var(--r-sm); padding: 2px 10px; cursor: pointer; margin-left: 10px; vertical-align: 2px; }}
 .shuffle:hover {{ border-color: var(--accent); }}
 .mandala-note {{ color: var(--muted); font-size: 12px; margin: -8px 0 14px; }}
-.pool-count {{ color: var(--green); }}
+.pool-count {{ color: var(--accent); }}
 .mandala {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 760px; margin: 0 auto; position: relative; }}
 .mandala::before {{ content: ""; position: absolute; inset: -14px; border: 1px dashed #30363d66; border-radius: 50%; pointer-events: none; }}
-.m-cell {{ display: flex; flex-direction: column; gap: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; text-decoration: none; color: var(--text); transition: border-color .15s, transform .15s; animation: mpop .5s cubic-bezier(.34,1.56,.64,1) both; }}
-.m-cell:hover {{ border-color: var(--green); transform: translateY(-3px); }}
-.m-cell:nth-child(5) {{ border-color: var(--green); background: linear-gradient(160deg, #1a2b20, #161b22); }}
+.m-cell {{ display: flex; flex-direction: column; gap: 6px; background: var(--panel); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px; text-decoration: none; color: var(--text); transition: border-color .15s, transform .15s; animation: mpop .5s cubic-bezier(.34,1.56,.64,1) both; }}
+.m-cell:hover {{ border-color: var(--accent); transform: translateY(-3px); }}
+.m-cell:nth-child(5) {{ border-color: var(--accent); background: linear-gradient(160deg, #1a2b20, #161b22); }}
 @keyframes mpop {{ from {{ opacity: 0; transform: scale(.85); }} to {{ opacity: 1; transform: scale(1); }} }}
-.m-genre {{ font-size: 10px; letter-spacing: 1px; color: var(--green); font-weight: 700; }}
-.m-name {{ font-size: 14px; font-weight: 700; color: var(--accent); word-break: break-all; }}
+.m-genre {{ font-size: 10px; letter-spacing: 1px; color: var(--accent); font-weight: 700; }}
+.m-name {{ font-size: 14px; font-weight: 700; color: var(--text); word-break: break-all; }}
 .m-desc {{ font-size: 11.5px; color: var(--muted); flex: 1; }}
 .m-meta {{ font-size: 10.5px; color: var(--muted); display: flex; justify-content: space-between; }}
-.m-lang {{ color: var(--green); font-family: ui-monospace, monospace; }}
+.m-lang {{ color: var(--accent); font-family: ui-monospace, monospace; }}
+
+/* ===== スマホ最適化 ===== */
+@media (max-width: 900px) {{
+  .mandala {{ grid-template-columns: repeat(2, 1fr); max-width: 560px; }}
+  .stack {{ grid-template-columns: 1fr; }}
+}}
+@media (max-width: 640px) {{
+  .wrap {{ padding: 16px 12px 60px; }}
+  header {{ padding: 28px 16px; border-radius: 16px; margin-bottom: 20px; }}
+  header img {{ width: 68px; height: 68px; border-width: 2px; margin-bottom: 10px; }}
+  header h1 {{ font-size: 24px; }}
+  header .statement {{ font-size: 13px; }}
+  header .links a {{ font-size: 13px; margin: 0 7px; }}
+  .stats {{ grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }}
+  .tile {{ padding: 14px 8px; border-radius: 10px; }}
+  .tile .num {{ font-size: 22px; }}
+  section {{ margin-bottom: 28px; }}
+  h2 {{ font-size: 17px; }}
+  .mandala {{ grid-template-columns: 1fr; max-width: 100%; gap: 8px; }}
+  .mandala::before {{ inset: -8px; }}
+  .m-cell {{ padding: 12px 14px; border-radius: 12px; }}
+  .kusa-box {{ padding: 14px 10px; border-radius: 12px; }}
+  .bar-label {{ width: 96px; font-size: 12px; }}
+  .bar-row {{ font-size: 12px; }}
+  footer {{ font-size: 11px; }}
+}}
 </style>
 </head>
 <body>
