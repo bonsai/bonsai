@@ -6,3 +6,7 @@ search_c1.json
 # Python
 __pycache__/
 *.pyc
+
+# Private documents (managed in private repo)
+apply*.md
+apply*.html
