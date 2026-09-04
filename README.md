@@ -6,9 +6,11 @@
 > **[🎨 Portfolio](https://bonsai.github.io/bonsai/)** へ。
 
 ![GitHub followers](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Followers&color=3fb950)
-![Repos](https://img.shields.io/badge/Repos-~1300-3fb950?style=flat-square)
+![Repos](https://img.shields.io/github/followers/bonsai?style=flat-square&label=Repos&color=3fb950)
 
 ## 📊 GitHub 統計
+
+![Repository Composition](repo-pie.svg)
 
 | 項目 | 数値 |
 |---|---:|
