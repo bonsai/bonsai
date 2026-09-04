@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bonsai — エンジニア × 企画 ポートフォリオ</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-elevated: #12121a;
+      --bg-card: #1a1a24;
+      --border: #2a2a35;
+      --text: #e8e8f0;
+      --text-muted: #8888a0;
+      --accent: #ff6b9d;
+      --accent-2: #c084fc;
+      --accent-3: #4ade80;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Header */
+    header {
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    header .eyecatch {
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    header h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.02em; }
+    header .subtitle { color: var(--text-muted); margin-top: 0.5rem; font-size: 1rem; }
+    header .lead {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-elevated);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    /* Section */
+    section { padding: 2.5rem 0; }
+    section + section { border-top: 1px solid var(--border); }
+    h2 {
+      font-size: 1.15rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    h2 .badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    h2 .badge.eng { background: rgba(255,107,157,0.15); color: var(--accent); }
+    h2 .badge.plan { background: rgba(192,132,252,0.15); color: var(--accent-2); }
+
+    /* Resume Table */
+    .resume-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .resume-table th, .resume-table td {
+      padding: 0.65rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    .resume-table th {
+      width: 120px;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .resume-table tr { border-bottom: 1px solid var(--border); }
+    .resume-table tr:last-child { border-bottom: none; }
+
+    /* Axis Layout */
+    .axis-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .axis-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    }
+
+    .axis-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .axis-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .axis-card h3 .tag {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .axis-card h3 .tag.eng { background: var(--accent); color: #fff; }
+    .axis-card h3 .tag.plan { background: var(--accent-2); color: #fff; }
+    .axis-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .axis-card .meta {
+      display: flex; flex-wrap: wrap; gap: 0.35rem;
+      font-size: 0.78rem;
+    }
+    .meta span {
+      padding: 0.15rem 0.5rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    /* Instagram Embed Placeholder */
+    .instagram-links {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .instagram-links a {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.9rem;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: #fff;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .instagram-links a:hover { opacity: 0.9; text-decoration: none; }
+
+    /* Skills */
+    .skill-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill {
+      font-size: 0.82rem;
+      padding: 0.35rem 0.75rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+    }
+    .skill.highlight {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Message */
+    .cover-letter {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.9;
+    }
+    .cover-letter strong { color: var(--accent); }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-bottom: 1px solid transparent;
+    }
+    .footer-links a:hover { border-bottom-color: var(--accent); color: var(--text); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="eyecatch">Portfolio for 株式会社アイドルシステム</div>
+    <h1>bonsai</h1>
+    <p class="subtitle">Full-stack Engineer × Game / Content Planner</p>
+    <div class="lead">
+      「ステージに立つアイドルが輝くように、エンジニアもスポットライトの当たる場所で輝ける環境を作りたい」——
+      この想いに共感し、<strong>技術軸と企画軸の両方</strong>からアイドルシステムに貢献したいと考えています。
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>📋 Profile</h2>
+    <table class="resume-table">
+      <tr><th>名前</th><td>bonsai（Web名義）</td></tr>
+      <tr><th>コア</th><td>フルスタック開発 / AIマルチエージェント / ゲーム企画</td></tr>
+      <tr><th>得意領域</th><td>リアルタイムWeb / 音声・映像処理 / AIエージェント設計 / ゲームシナリオ・数値設計</td></tr>
+      <tr><th>言語</th><td>TypeScript, Python, Elixir, Gleam</td></tr>
+      <tr><th>Portfolio</th><td><a href="https://bonsai.github.io/bonsai/" target="_blank">bonsai.github.io/bonsai/</a></td></tr>
+      <tr><th>GitHub</th><td><a href="https://github.com/bonsai/bonsai" target="_blank">github.com/bonsai/bonsai</a></td></tr>
+      <tr><th>連絡先</th><td>（後日追記）portofolio参照歓迎</td></tr>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2><span class="badge eng">エンジニア軸</span> Projects & Evidence</h2>
+    <div class="axis-grid">
+      <div class="axis-card">
+        <h3>Voice BBS <span class="tag eng">Eng</span></h3>
+        <p>匿名・認証不要の音声掲示板。リアルタイム音声配信の実験としてElixir/Phoenix版とNext.js/Cloudflare版を二軸で実装。WAV→PNG変換・Web Audio API等の実装。</p>
+        <div class="meta">
+          <span>Elixir</span><span>Phoenix</span><span>Next.js</span><span>Cloudflare</span><span>Web Audio</span>
+        </div>
+      </div>
+
+      <div class="axis-card">
+        <h3>Quiz Ecosystem <span class="tag eng">Eng</span></h3>
+        <p>深掘りクイズ生成プラットフォーム。マイクロサービス構成でエージェントをプラグイン化。LangGraph / Mastra / Google ADK の3種類のAIエージェントを統合。</p>
+        <div class="meta">
+          <span>TypeScript</span><span>Python</span><span>Gleam</span><span>LangGraph</span>
+        </div>
+      </div>
+
+      <div class="axis-card">
+        <h3>KAMERA <span class="tag eng">Eng</span></h3>
+        <p>カメラ映像に特化したVJツール。RDF/Turtleで映像処理を宣言的記述し、ブラウザ上で60fpsリアルタイムレンダリング。MediaPipeで身体入力対応。</p>
+        <div class="meta">
+          <span>TypeScript</span><span>RDF</span><span>MediaPipe</span><span>Canvas</span>
+        </div>
+      </div>
+
+      <div class="axis-card">
+        <h3>Math Rock Composer <span class="tag eng">Eng</span></h3>
+        <p>Camel-AIマルチエージェントで変拍子楽曲を構造化し、Hugging Face Inference APIで音源化。ローカルに大規模モデルを置かずAPI完結。</p>
+        <div class="meta">
+          <span>Python</span><span>Camel-AI</span><span>HuggingFace</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="instagram-links">
+      <!-- エンジニア軸のInstagram投稿をここに貼る -->
+      <a href="https://www.instagram.com/" target="_blank">📱 エンジニア軸 Instagram #1</a>
+      <a href="https://www.instagram.com/" target="_blank">📱 エンジニア軸 Instagram #2</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2><span class="badge plan">企画軸</span> Projects & Evidence</h2>
+    <div class="axis-grid">
+      <div class="axis-card">
+        <h3>Idol Produce <span class="tag plan">Plan</span></h3>
+        <p>借金2000万から始めるアイドル事務所育成ゲーム。36ターンで評価額1億円のバイアウトを目指す定量的シミュレーション。数値設計・ターンサイクル・イベント設計を含む完全な企画書。</p>
+        <div class="meta">
+          <span>Game Design</span><span>数値設計</span><span>シナリオ</span><span>TypeScript</span>
+        </div>
+      </div>
+
+      <div class="axis-card">
+        <h3>Yonkoma Pipeline <span class="tag plan">Plan</span></h3>
+        <p>AI自動4コマ漫画動画パイプライン。エージェントでシナリオ作成・批評を実施し、SDXLで画像生成、ffmpegで15秒動画を自動合成するコンテンツ設計。</p>
+        <div class="meta">
+          <span>Python</span><span>CAMEL-AI</span><span>SDXL</span><span>動画設計</span>
+        </div>
+      </div>
+
+      <div class="axis-card">
+        <h3>World Ontology <span class="tag plan">Plan</span></h3>
+        <p>「世界は一つ。ゲームはその写像である。」Entity-first・Relation-centricの世界記述メタモデル。複数ゲームエンジンへランタイム変換可能な企画基盤設計。</p>
+        <div class="meta">
+          <span>ONT</span><span>JSON Schema</span><span>企画基盤</span><span>ゲーム設計</span>
+        </div>
+      </div>
+
+      <div class="axis-card">
+        <h3>Anima <span class="tag plan">Plan</span></h3>
+        <p>ストーリーボードPNGからコマ単位で切り出し、連結してGIF/MP4を生成する映像処理パイプライン。映像制作の工程設計・仕様書作成含む。</p>
+        <div class="meta">
+          <span>Python</span><span>ffmpeg</span><span>映像設計</span><span>仕様書</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="instagram-links">
+      <!-- 企画軸のInstagram投稿をここに貼る -->
+      <a href="https://www.instagram.com/" target="_blank">📱 企画軸 Instagram #1</a>
+      <a href="https://www.instagram.com/" target="_blank">📱 企画軸 Instagram #2</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>💌 Message</h2>
+    <div class="cover-letter">
+      <p>
+        大空様のnote拝読しました。「アイドル業界とSES業界の構造がそっくり」という視点、そして「働きやすくてしっかり還元できる環境を作りたい」という想いに強く共感しました。
+      </p>
+      <p>
+        私自身も、エンジニアとしての技術力と、ゲーム・コンテンツの企画力を両軸で磨いてきました。
+        <strong>エンジニア軸</strong>ではリアルタイム通信・AIエージェント・映像処理を扱い、
+        <strong>企画軸</strong>では数値設計から世界観構築まで一連の企画書作成を行ってきました。
+      </p>
+      <p>
+        「ステージに立つアイドルのようにエンジニアが輝ける場所を作る」というアイドルシステムのミッションに、ぜひ技術と企画の両面から貢献させてください。
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>🛠 Skills</h2>
+    <div class="skill-grid">
+      <span class="skill highlight">TypeScript / Node.js</span>
+      <span class="skill">Python</span>
+      <span class="skill">Elixir / Phoenix</span>
+      <span class="skill">Gleam</span>
+      <span class="skill">Next.js / React</span>
+      <span class="skill">Cloudflare (D1 / R2 / KV)</span>
+      <span class="skill highlight">LangGraph / CAMEL-AI</span>
+      <span class="skill">AI Agent Architecture</span>
+      <span class="skill">Game Design / Balancing</span>
+      <span class="skill">Scenario Writing</span>
+      <span class="skill">ffmpeg / Image Processing</span>
+      <span class="skill">RDF / Ontology</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-links">
+      <a href="./">Media Artist Portfolio</a>
+      <a href="https://github.com/bonsai/bonsai" target="_blank">GitHub</a>
+      <a href="tree.html">🌳 GH Tree</a>
+      <a href="https://bonsai.github.io/idol-produce/" target="_blank">Idol Produce (企画書)</a>
+      <a href="https://bubblevoice.up.railway.app" target="_blank">Voice BBS</a>
+    </div>
+    <p>© bonsai — Portfolio for 株式会社アイドルシステム</p>
+  </div>
+</footer>
+
+</body>
+</html>

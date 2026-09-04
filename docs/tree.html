@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bonsai / GH Tree</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-elevated: #12121a;
+      --border: #2a2a35;
+      --text: #e8e8f0;
+      --text-muted: #8888a0;
+      --accent: #ff6b9d;
+      --accent-2: #c084fc;
+      --folder: #facc15;
+      --file: #94a3b8;
+      --link: #58a6ff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Noto Sans JP", monospace;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+    }
+    .container { max-width: 720px; margin: 0 auto; }
+    header { margin-bottom: 2rem; }
+    header h1 { font-size: 1.25rem; }
+    header p { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
+    header a { color: var(--accent); font-size: 0.85rem; }
+
+    .tree { margin-top: 1rem; }
+    .item { display: flex; align-items: baseline; gap: 0.4rem; padding: 0.1rem 0; }
+    .toggle { cursor: pointer; user-select: none; color: var(--text-muted); width: 1.2rem; text-align: center; display: inline-block; }
+    .toggle:hover { color: var(--text); }
+    .indent { display: inline-block; width: 1.5rem; }
+    .icon { font-size: 0.9rem; }
+    .icon.folder { color: var(--folder); }
+    .icon.file { color: var(--file); }
+    .name { color: var(--text); }
+    .name a { color: var(--link); text-decoration: none; }
+    .name a:hover { text-decoration: underline; }
+    .desc { color: var(--text-muted); font-size: 0.8rem; margin-left: 0.5rem; }
+    .children { margin-left: 1.5rem; }
+    .collapsed { display: none; }
+    .repo-root { font-weight: 600; }
+    .repo-root .name { color: var(--accent-2); }
+
+    .stats { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); }
+    .back { margin-bottom: 1rem; }
+    .back a { color: var(--text-muted); font-size: 0.85rem; }
+    .back a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="back"><a href="index.html">← Portfolio</a></div>
+    <header>
+      <h1>🌳 GH Link Tree</h1>
+      <p>github.com/bonsai / リポジトリ構造マップ</p>
+      <a href="https://github.com/bonsai" target="_blank">Open GitHub →</a>
+    </header>
+
+    <div class="tree">
+      <!-- Repositories -->
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/bonsai.github.io" target="_blank">bonsai.github.io</a></span>
+        <span class="desc">ポートフォリオサイト（このページ）</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon file">📄</span><span class="name">index.html</span></div>
+          <div class="item"><span class="indent"></span><span class="icon file">📄</span><span class="name">tree.html</span></div>
+          <div class="item"><span class="indent"></span><span class="icon file">📄</span><span class="name">README.md</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/quiz-agents" target="_blank">quiz-agents</a></span>
+        <span class="desc">Quiz Ecosystem — 深掘りクイズ生成プラットフォーム</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">packages/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">contracts/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">docs/</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/voice_bbs" target="_blank">voice_bbs</a></span>
+        <span class="desc">Voice BBS — Elixir/Phoenix版 音声掲示板</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">apps/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">lib/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">priv/</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/voice-bbs-web" target="_blank">voice-bbs-web</a></span>
+        <span class="desc">Voice BBS Web — Next.js/Cloudflare版</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">apps/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">docs/</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/idol-produce" target="_blank">idol-produce</a></span>
+        <span class="desc">Idol Produce — 借金2000万からのアイドル事務所育成ゲーム企画書</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">docs/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">src/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">public/</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/yonkoma" target="_blank">yonkoma</a></span>
+        <span class="desc">Yonkoma Pipeline — AI自動4コマ漫画動画生成パイプライン</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon file">📄</span><span class="name">scenario.py</span></div>
+          <div class="item"><span class="indent"></span><span class="icon file">📄</span><span class="name">generate_images.py</span></div>
+          <div class="item"><span class="indent"></span><span class="icon file">📄</span><span class="name">assemble.py</span></div>
+          <div class="item"><span class="indent"></span><span class="icon file">📄</span><span class="name">tts.py</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/world-ontology" target="_blank">world-ontology</a></span>
+        <span class="desc">World Ontology — 世界記述メタモデル</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">ontology/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">worlds/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">engines/</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/kamera" target="_blank">kamera</a></span>
+        <span class="desc">KAMERA — カメラ映像特化VJツール</span>
+        <div class="children">
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">src/</span></div>
+          <div class="item"><span class="indent"></span><span class="icon folder">📁</span><span class="name">docs/</span></div>
+        </div>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/mathrock-camel" target="_blank">mathrock-camel</a></span>
+        <span class="desc">Math Rock Composer — 変拍子楽曲AI生成</span>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/anima" target="_blank">anima</a></span>
+        <span class="desc">Anima — ストーリーボード → GIF/MP4 変換ツール</span>
+      </div>
+
+      <div class="item repo-root">
+        <span class="toggle" onclick="toggle(this)">▼</span>
+        <span class="icon folder">📁</span>
+        <span class="name"><a href="https://github.com/bonsai/opencode-skills" target="_blank">opencode-skills</a></span>
+        <span class="desc">Opencode Skills — AIスキル配布管理</span>
+      </div>
+    </div>
+
+    <div class="stats">
+      Repositories: 11 ｜ Languages: TypeScript, Python, Elixir, Gleam ｜ <a href="https://github.com/bonsai" target="_blank" style="color:var(--link)">github.com/bonsai</a>
+    </div>
+  </div>
+
+  <script>
+    function toggle(el) {
+      const parent = el.closest('.repo-root');
+      const children = parent.querySelector('.children');
+      if (!children) return;
+      if (children.classList.contains('collapsed')) {
+        children.classList.remove('collapsed');
+        el.textContent = '▼';
+      } else {
+        children.classList.add('collapsed');
+        el.textContent = '►';
+      }
+    }
+  </script>
+</body>
+</html>
