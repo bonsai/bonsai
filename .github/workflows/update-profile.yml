@@ -27,8 +27,8 @@ jobs:
         run: |
           gh api "users/bonsai/repos?per_page=100" --paginate \
             --jq '.[] | {name, description, language, stargazers_count, forks_count, created_at, updated_at, pushed_at, fork, archived, topics, homepage}' \
-            > bonsai_repos.jsonl
-          wc -l bonsai_repos.jsonl
+            > data/bonsai_repos.jsonl
+          wc -l data/bonsai_repos.jsonl
 
       - name: Fetch 90-day contributions
         env:
@@ -48,19 +48,24 @@ jobs:
             }
           }' -f from="$FROM" -f to="$TO" \
             --jq '.data.user.contributionsCollection.contributionCalendar' \
-            > kusa_3mo.json
-          cat kusa_3mo.json | head -c 120; echo
+            > data/kusa_3mo.json
+          cat data/kusa_3mo.json | head -c 120; echo
 
-      - name: Generate assets
+      - name: Generate site assets
         run: |
-          python3 generate_kusa.py
-          python3 generate_portfolio.py
+          cp data/bonsai_repos.jsonl scripts/bonsai_repos.jsonl
+          cp data/kusa_3mo.json scripts/kusa_3mo.json
+          (cd scripts && python3 generate_kusa.py && python3 generate_portfolio.py)
+          mv scripts/kusa.svg docs/kusa.svg
+          mv scripts/portfolio.html docs/portfolio.html
+          mv scripts/index.html docs/index.html
+          rm -f scripts/README.md scripts/bonsai_repos.jsonl scripts/kusa_3mo.json
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md kusa.svg kusa_3mo.json bonsai_repos.jsonl portfolio.html index.html
+          git add README.md data/ docs/ scripts/
           if git diff --cached --quiet; then
             echo "No changes"
           else
